@@ -2,19 +2,15 @@ services:
   - type: web
     name: goglocal-web
     env: python
-    plan: starter
+    plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     envVars:
-      - key: DATABASE_URL
-        fromDatabase:
-          name: goglocal-db
-          property: connectionString
       - key: AUTO_INIT_DB
-        value: "true"
+        value: "false"
       - key: AUTO_SEED_JSON
-        value: "true"
+        value: "false"
       - key: OPENAI_MODEL
         value: gpt-4.1-mini
       - key: GOOGLE_SEARCH_CENTER
@@ -27,7 +23,3 @@ services:
         sync: false
       - key: GOOGLE_MAPS_API_KEY
         sync: false
-
-databases:
-  - name: goglocal-db
-    plan: starter
