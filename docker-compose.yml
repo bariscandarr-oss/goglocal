@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    container_name: goglocal-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: goglocal
+      POSTGRES_PASSWORD: goglocal
+      POSTGRES_DB: goglocal
+    ports:
+      - "5432:5432"
+    volumes:
+      - goglocal_pg:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+volumes:
+  goglocal_pg:
