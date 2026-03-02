@@ -303,8 +303,6 @@ def _fetch_text_new(api_key: str, center: str, radius: int, query: str) -> list[
         display_name = (r.get("displayName") or {}).get("text", "Unknown")
         opening_hours = r.get("currentOpeningHours") or {}
         base_types = r.get("types", [])
-        if "vegan" in query.lower():
-            base_types = list(set(base_types + ["vegan_restaurant"]))
         place = GooglePlace(
             place_id=str(r.get("id", "")),
             name=display_name,

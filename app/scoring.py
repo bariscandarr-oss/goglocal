@@ -152,6 +152,13 @@ def _compute_personalized(place: Place, user_tags: list[str]) -> float:
     return hit / len(user_tags)
 
 
+def _required_hit_count(place: Place, intent: QueryIntent) -> int:
+    if not intent.required_tags:
+        return 0
+    tags = set(place.tags)
+    return sum(1 for t in intent.required_tags if t in tags)
+
+
 def _passes_hard_filters(place: Place, intent: QueryIntent) -> bool:
     tags = set(place.tags)
     # Keep hard filters minimal; tags are primarily ranking signals.
@@ -236,9 +243,17 @@ def _choose_candidates(places: list[Place], intent: QueryIntent, exclude_ids: se
                 return relaxed_zone
             # Fallback: avoid empty responses on sparse datasets (e.g., free/json mode).
             area_base = [p for p in pool if _is_in_area(p, intent.area)]
+            if intent.required_tags:
+                area_with_required = [p for p in area_base if _required_hit_count(p, intent) >= 1]
+                if area_with_required:
+                    return area_with_required
             if area_base:
                 return area_base
             broad_base = [p for p in pool if _passes_base_filters(p, intent)]
+            if intent.required_tags:
+                broad_with_required = [p for p in broad_base if _required_hit_count(p, intent) >= 1]
+                if broad_with_required:
+                    return broad_with_required
             if broad_base:
                 return broad_base
             return pool
@@ -250,6 +265,10 @@ def _choose_candidates(places: list[Place], intent: QueryIntent, exclude_ids: se
 
     if strict:
         return strict
+    if intent.required_tags:
+        with_required = [p for p in pool if _required_hit_count(p, intent) >= 1]
+        if with_required:
+            return with_required
     return places
 
 
@@ -294,7 +313,7 @@ def score_places(
             if t in tags:
                 reasons.append(f"{_human_tag(t)} kriterini sağlıyor")
             else:
-                reasons.append(f"{_human_tag(t)} kriteri kısmi")
+                reasons.append(f"{_human_tag(t)} için tam eşleşme yok, alternatif öneri")
         for t in intent.excluded_tags:
             if t in tags:
                 reasons.append(f"{_human_tag(t)} olabileceği için daha düşük puan")
