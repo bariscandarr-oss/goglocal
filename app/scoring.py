@@ -234,7 +234,14 @@ def _choose_candidates(places: list[Place], intent: QueryIntent, exclude_ids: se
                 relaxed_zone = [p for p in relaxed_zone if sum(1 for t in intent.required_tags if t in set(p.tags)) >= min_hits]
             if relaxed_zone:
                 return relaxed_zone
-            return []
+            # Fallback: avoid empty responses on sparse datasets (e.g., free/json mode).
+            area_base = [p for p in pool if _is_in_area(p, intent.area)]
+            if area_base:
+                return area_base
+            broad_base = [p for p in pool if _passes_base_filters(p, intent)]
+            if broad_base:
+                return broad_base
+            return pool
 
         area_only = [p for p in pool if _is_in_area(p, intent.area)]
         if area_only:
