@@ -25,6 +25,7 @@ let markerLayer = L.layerGroup().addTo(map);
 let lastQueryText = "";
 let lastQueryKey = "";
 let lastResultIds = [];
+let recentResultIds = [];
 
 function normalizeQuery(text) {
   return (text || "")
@@ -184,7 +185,9 @@ form.addEventListener("submit", async (e) => {
   try {
     const userId = userIdEl.value.trim();
     const tags = parseTags(profileTagsEl.value);
-    const excludeIds = queryKey === lastQueryKey ? lastResultIds.slice(0, 8) : [];
+    const sameQueryExclude = queryKey === lastQueryKey ? lastResultIds.slice(0, 8) : [];
+    const globalExclude = recentResultIds.slice(0, 8);
+    const excludeIds = [...new Set([...sameQueryExclude, ...globalExclude])];
     const payload = {
       query,
       user_id: userId || null,
@@ -199,6 +202,7 @@ form.addEventListener("submit", async (e) => {
     renderResults(data);
     lastQueryKey = queryKey;
     lastResultIds = (data.results || []).map((x) => x.place?.id).filter(Boolean);
+    recentResultIds = [...lastResultIds, ...recentResultIds].filter(Boolean).slice(0, 24);
   } catch (_err) {
     resultsEl.innerHTML = "<p>Arama sirasinda hata olustu.</p>";
   } finally {

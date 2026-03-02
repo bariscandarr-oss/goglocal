@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+import re
 
 from .constants import AREA_CENTERS
 from .models import Place, QueryIntent, ScoredPlace
@@ -54,11 +55,28 @@ def _normalize_google_score(rating: float, reviews: int) -> float:
 
 def _compute_local_score(place: Place) -> float:
     total = place.local_votes_up + place.local_votes_down
-    vote_quality = place.local_votes_up / max(total, 1)
     weighted_total = place.local_weighted_up + place.local_weighted_down
-    authentic_quality = place.local_weighted_up / max(weighted_total, 1e-6) if weighted_total > 0 else vote_quality
     freshness = max(0.0, 1.0 - (place.updated_days_ago / 30.0))
+
+    # For live/free mode data with no local votes, avoid flat 0.2 local score.
+    if total == 0 and weighted_total == 0:
+        crowd_proxy = min(math.log10(max(place.google_reviews, 1)) / 4.0, 1.0)
+        return (0.28) + (0.52 * crowd_proxy) + (0.20 * freshness)
+
+    vote_quality = place.local_votes_up / max(total, 1)
+    authentic_quality = place.local_weighted_up / max(weighted_total, 1e-6) if weighted_total > 0 else vote_quality
     return (0.45 * vote_quality) + (0.35 * authentic_quality) + (0.20 * freshness)
+
+
+def _local_reason(place: Place, local_score: float, local_authenticity: float) -> str:
+    total = place.local_votes_up + place.local_votes_down
+    weighted_total = place.local_weighted_up + place.local_weighted_down
+    if total == 0 and weighted_total == 0:
+        return f"yerel puan {local_score:.2f}: yerel oy az, topluluk sinyali (yorum) baz alındı"
+    return (
+        f"yerel puan {local_score:.2f}: "
+        f"{place.local_votes_up}/{max(total,1)} olumlu oy, otantiklik {local_authenticity:.2f}"
+    )
 
 
 def _compute_relevance(place: Place, intent: QueryIntent) -> float:
@@ -272,6 +290,43 @@ def _choose_candidates(places: list[Place], intent: QueryIntent, exclude_ids: se
     return places
 
 
+def _brand_key(name: str) -> str:
+    n = name.lower()
+    n = re.sub(r"[^a-z0-9\sçğıöşü]", " ", n)
+    tokens = [t for t in n.split() if t not in {"cafe", "kafe", "coffee", "restaurant", "restoran", "istanbul"}]
+    return tokens[0] if tokens else n.strip()
+
+
+def _diversify_scored(scored: list[ScoredPlace]) -> list[ScoredPlace]:
+    if len(scored) <= 1:
+        return scored
+
+    remaining = list(scored)
+    selected: list[ScoredPlace] = []
+    used_brands: set[str] = set()
+
+    while remaining:
+        best_idx = 0
+        best_value = -1e9
+        for idx, item in enumerate(remaining):
+            value = item.final_score
+            brand = _brand_key(item.place.name)
+            if brand in used_brands:
+                value -= 0.03
+            for s in selected[-4:]:
+                if item.distance_m is not None and s.distance_m is not None and abs(item.distance_m - s.distance_m) < 180:
+                    value -= 0.02
+            if value > best_value:
+                best_value = value
+                best_idx = idx
+
+        chosen = remaining.pop(best_idx)
+        selected.append(chosen)
+        used_brands.add(_brand_key(chosen.place.name))
+
+    return selected
+
+
 def _weights_for_profile(profile: str | None) -> tuple[float, float, float, float, float]:
     if profile == "study_quiet":
         return 0.50, 0.15, 0.12, 0.08, 0.15
@@ -331,6 +386,7 @@ def score_places(
             reasons.append(f"yaklaşık {distance_m}m mesafede")
         if place.is_open_now:
             reasons.append("şu an açık")
+        reasons.append(_local_reason(place, round(local, 4), round(local_authenticity, 4)))
 
         scored.append(
             ScoredPlace(
@@ -347,4 +403,4 @@ def score_places(
         )
 
     scored.sort(key=lambda x: x.final_score, reverse=True)
-    return scored
+    return _diversify_scored(scored)
