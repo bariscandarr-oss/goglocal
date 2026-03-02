@@ -14,7 +14,7 @@ from .explainer import add_recommendation_summaries
 from .models import FeedbackRequest, Place, SearchRequest, SearchResponse, UserProfileRequest, UserProfileResponse
 from .scoring import score_places
 from .seed import seed_from_json
-from .ingest_google import ingest_google_places
+from .ingest_google import ingest_google_places, search_google_places_live
 from .storage import apply_feedback, count_db_places, create_tables, get_user_profile, load_places, upsert_user_profile
 
 load_dotenv()
@@ -85,6 +85,19 @@ def ingest_google() -> dict[str, str | int]:
 def search_places(payload: SearchRequest) -> SearchResponse:
     places, storage_source = load_places()
     intent, parser_source = parse_query_intent_with_source(payload.query)
+    if storage_source == "json":
+        try:
+            live_places = search_google_places_live(query=payload.query, area=intent.area)
+        except Exception:
+            live_places = []
+        if live_places:
+            merged: dict[str, Place] = {p.id: p for p in live_places}
+            for p in places:
+                if p.id not in merged:
+                    merged[p.id] = p
+            places = list(merged.values())
+            storage_source = "json+live_google"
+
     merged_tags = list(payload.user_tags)
     profile_budget = None
 

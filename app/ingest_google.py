@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 
 from .constants import AREA_CENTERS
 from .db import build_engine, has_database
+from .models import Place
 from .orm import PlaceRecord
 from .storage import create_tables
 
@@ -354,6 +355,70 @@ def ingest_google_places() -> int:
         session.commit()
 
     return count
+
+
+def search_google_places_live(
+    query: str,
+    area: str | None = None,
+    radius: int | None = None,
+    max_count: int = 80,
+) -> list[Place]:
+    api_key = os.getenv("GOOGLE_MAPS_API_KEY", "").strip()
+    if not api_key:
+        return []
+
+    default_center = os.getenv("GOOGLE_SEARCH_CENTER", "41.0422,29.0083").strip()
+    default_radius = int(os.getenv("GOOGLE_SEARCH_RADIUS_METERS", "2500"))
+    search_radius = radius or default_radius
+
+    center = default_center
+    if area and area in AREA_CENTERS:
+        c = AREA_CENTERS[area]
+        center = f"{c[0]},{c[1]}"
+
+    q = query.lower()
+    query_variants: list[str] = [query]
+    if "vegan" in q:
+        query_variants.append("vegan restaurant")
+    if any(k in q for k in ["sutlu", "sütlü", "muhallebi", "sutlac", "sütlaç", "kazandibi", "dessert", "tatli", "tatlı"]):
+        query_variants.extend(["sutlu tatli", "dessert"])
+    if any(k in q for k in ["ders", "study", "sessiz", "quiet", "calis", "çalış"]):
+        query_variants.extend(["quiet cafe", "study cafe"])
+
+    combined: dict[str, GooglePlace] = {}
+    try:
+        for qq in query_variants:
+            for p in _fetch_text_new(api_key=api_key, center=center, radius=search_radius, query=qq):
+                combined[p.place_id] = p
+        for p in _fetch_nearby(api_key=api_key, center=center, radius=search_radius):
+            combined[p.place_id] = p
+    except Exception:
+        pass
+
+    out: list[Place] = []
+    for gp in list(combined.values())[:max_count]:
+        out.append(
+            Place(
+                id=gp.place_id,
+                name=gp.name,
+                area=_guess_area(gp.latitude, gp.longitude),
+                category=_category_from_types(gp.types, gp.name),
+                tags=_tags_from_types(gp.types, gp.name),
+                quietness_level=gp.quietness_level,
+                latitude=gp.latitude,
+                longitude=gp.longitude,
+                price_level=gp.price_level,
+                google_rating=gp.rating,
+                google_reviews=gp.user_ratings_total,
+                is_open_now=gp.open_now,
+                local_votes_up=0,
+                local_votes_down=0,
+                local_weighted_up=0.0,
+                local_weighted_down=0.0,
+                updated_days_ago=0,
+            )
+        )
+    return out
 
 
 if __name__ == "__main__":
