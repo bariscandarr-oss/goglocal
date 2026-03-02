@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import os
 from dataclasses import dataclass
 
@@ -117,6 +118,60 @@ def _price_level_to_int(raw: str | int | None) -> int:
         "PRICE_LEVEL_VERY_EXPENSIVE": 4,
     }
     return mapping.get(str(raw), 2)
+
+
+def _normalize_text(text: str) -> str:
+    t = text.lower().strip()
+    tr_map = str.maketrans({"ç": "c", "ğ": "g", "ı": "i", "ö": "o", "ş": "s", "ü": "u"})
+    return t.translate(tr_map)
+
+
+def _query_variants(query: str) -> list[str]:
+    q = _normalize_text(query)
+    variants: list[str] = [query]
+
+    if any(k in q for k in ["vegan", "bitkisel", "plant"]):
+        variants.extend(["vegan restaurant", "vegan cafe", "plant based food"])
+    if any(k in q for k in ["sutlu", "sutlac", "muhallebi", "kazandibi", "dessert", "tatli"]):
+        variants.extend(["sutlu tatli", "muhallebi", "dessert"])
+    if any(k in q for k in ["ders", "study", "calis", "focus", "sessiz", "quiet", "sakin"]):
+        variants.extend(["quiet cafe", "study cafe", "coworking space"])
+    if any(k in q for k in ["kahve", "coffee", "kafe", "cafe"]):
+        variants.append("cafe")
+    if any(k in q for k in ["restoran", "restaurant", "yemek"]):
+        variants.append("restaurant")
+
+    seen: set[str] = set()
+    uniq: list[str] = []
+    for v in variants:
+        vv = v.strip()
+        if vv and vv not in seen:
+            seen.add(vv)
+            uniq.append(vv)
+    return uniq[:8]
+
+
+def _live_centers(area: str | None) -> list[str]:
+    if area and area in AREA_CENTERS:
+        c = AREA_CENTERS[area]
+        return [f"{c[0]},{c[1]}"]
+
+    area_list = [x.strip() for x in os.getenv("GOOGLE_LIVE_AREAS", "kadikoy,besiktas,beyoglu,sisli,uskudar,cekmekoy").split(",") if x.strip()]
+    centers: list[str] = []
+    for a in area_list:
+        c = AREA_CENTERS.get(a)
+        if c:
+            centers.append(f"{c[0]},{c[1]}")
+    if not centers:
+        c = os.getenv("GOOGLE_SEARCH_CENTER", "41.0422,29.0083").strip()
+        centers = [c]
+    return centers
+
+
+def _google_quality_score(rating: float, reviews: int) -> float:
+    rating_part = min(max(rating / 5.0, 0.0), 1.0)
+    review_part = min(math.log10(max(reviews, 1)) / 4.0, 1.0)
+    return (0.72 * rating_part) + (0.28 * review_part)
 
 
 def _fetch_nearby_legacy(api_key: str, center: str, radius: int, keyword: str | None = None) -> list[GooglePlace]:
@@ -361,42 +416,44 @@ def search_google_places_live(
     query: str,
     area: str | None = None,
     radius: int | None = None,
-    max_count: int = 80,
+    max_count: int = 120,
 ) -> list[Place]:
     api_key = os.getenv("GOOGLE_MAPS_API_KEY", "").strip()
     if not api_key:
         return []
 
-    default_center = os.getenv("GOOGLE_SEARCH_CENTER", "41.0422,29.0083").strip()
     default_radius = int(os.getenv("GOOGLE_SEARCH_RADIUS_METERS", "2500"))
-    search_radius = radius or default_radius
-
-    center = default_center
-    if area and area in AREA_CENTERS:
-        c = AREA_CENTERS[area]
-        center = f"{c[0]},{c[1]}"
-
-    q = query.lower()
-    query_variants: list[str] = [query]
-    if "vegan" in q:
-        query_variants.append("vegan restaurant")
-    if any(k in q for k in ["sutlu", "sütlü", "muhallebi", "sutlac", "sütlaç", "kazandibi", "dessert", "tatli", "tatlı"]):
-        query_variants.extend(["sutlu tatli", "dessert"])
-    if any(k in q for k in ["ders", "study", "sessiz", "quiet", "calis", "çalış"]):
-        query_variants.extend(["quiet cafe", "study cafe"])
+    search_radius = radius or (6000 if area else 3500)
+    centers = _live_centers(area)
+    query_variants = _query_variants(query)
 
     combined: dict[str, GooglePlace] = {}
-    try:
-        for qq in query_variants:
-            for p in _fetch_text_new(api_key=api_key, center=center, radius=search_radius, query=qq):
+    for center in centers:
+        try:
+            for qq in query_variants:
+                for p in _fetch_text_new(api_key=api_key, center=center, radius=search_radius, query=qq):
+                    combined[p.place_id] = p
+            for p in _fetch_nearby(api_key=api_key, center=center, radius=search_radius):
                 combined[p.place_id] = p
-        for p in _fetch_nearby(api_key=api_key, center=center, radius=search_radius):
-            combined[p.place_id] = p
-    except Exception:
-        pass
+        except Exception:
+            continue
+
+    ranked = sorted(
+        combined.values(),
+        key=lambda gp: _google_quality_score(gp.rating, gp.user_ratings_total),
+        reverse=True,
+    )
+    filtered: list[GooglePlace] = []
+    for gp in ranked:
+        # Skip very low-confidence places globally; keep the pool cleaner.
+        if gp.rating < 3.8 and gp.user_ratings_total < 20:
+            continue
+        filtered.append(gp)
+        if len(filtered) >= max_count:
+            break
 
     out: list[Place] = []
-    for gp in list(combined.values())[:max_count]:
+    for gp in filtered:
         out.append(
             Place(
                 id=gp.place_id,
