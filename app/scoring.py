@@ -11,6 +11,7 @@ AREA_RADIUS_M = 4500
 def _human_tag(tag: str) -> str:
     mapping = {
         "sutlu_tatli": "sütlü tatlı",
+        "sushi": "sushi",
         "ders": "ders çalışma",
         "sessiz": "sessizlik",
         "vegan": "vegan",
@@ -332,6 +333,8 @@ def _weights_for_profile(profile: str | None) -> tuple[float, float, float, floa
         return 0.50, 0.15, 0.12, 0.08, 0.15
     if profile == "vegan_food":
         return 0.50, 0.20, 0.10, 0.05, 0.15
+    if profile == "sushi_food":
+        return 0.50, 0.22, 0.10, 0.05, 0.13
     if profile == "milk_dessert":
         return 0.42, 0.25, 0.12, 0.06, 0.15
     if profile == "budget_friendly":

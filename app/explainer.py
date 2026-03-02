@@ -10,6 +10,7 @@ from .models import QueryIntent, ScoredPlace
 def _human_tag(tag: str) -> str:
     mapping = {
         "sutlu_tatli": "sütlü tatlı",
+        "sushi": "sushi",
         "ders": "ders çalışma",
         "sessiz": "sessiz ortam",
         "vegan": "vegan",

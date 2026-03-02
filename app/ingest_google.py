@@ -65,6 +65,8 @@ def _tags_from_types(types: list[str], name: str) -> list[str]:
         tags.add("kalabalik")
     if any(k in lower_name for k in ["vegan", "plant"]):
         tags.add("vegan")
+    if "sushi_restaurant" in t or "japanese_restaurant" in t or any(k in lower_name for k in ["sushi", "sushici", "suşi", "suşici", "japon"]):
+        tags.add("sushi")
     if (
         "dessert_shop" in t
         or "ice_cream_shop" in t
@@ -140,6 +142,8 @@ def _query_variants(query: str) -> list[str]:
         variants.append("cafe")
     if any(k in q for k in ["restoran", "restaurant", "yemek"]):
         variants.append("restaurant")
+    if any(k in q for k in ["sushi", "sushici", "susi", "japon", "suşi", "suşici"]):
+        variants.extend(["sushi restaurant", "japanese restaurant", "sushi bar"])
 
     seen: set[str] = set()
     uniq: list[str] = []

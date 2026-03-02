@@ -17,10 +17,11 @@ TAG_MAP = {
     "priz": ["priz", "socket"],
     "kalabalik": ["kalabalik", "kalabalık", "crowded", "noisy"],
     "sutlu_tatli": ["sutlu tatli", "sütlü tatlı", "sutlac", "sütlaç", "muhallebi", "kazandibi", "profiterol", "trilece", "tatli", "tatlı", "dessert"],
+    "sushi": ["sushi", "sushici", "suşi", "suşici", "japon"],
 }
 CATEGORY_MAP = {
     "cafe": ["cafe", "kafe", "kahve", "coffee"],
-    "restaurant": ["restaurant", "restoran", "yemek"],
+    "restaurant": ["restaurant", "restoran", "yemek", "sushi", "sushici", "japon"],
     "coworking": ["coworking", "co-working", "ofis", "çalışma alanı", "calisma alani"],
     "library": ["library", "kutuphane", "kütüphane"],
     "dessert": ["tatli", "tatlı", "dessert", "pastane", "bakery", "muhallebi", "sutlac", "sütlaç", "kazandibi"],

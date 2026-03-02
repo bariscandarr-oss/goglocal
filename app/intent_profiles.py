@@ -31,6 +31,15 @@ INTENT_PROFILES: tuple[IntentProfile, ...] = (
         max_distance_m=5000,
     ),
     IntentProfile(
+        name="sushi_food",
+        triggers=("sushi", "sushici", "suşi", "suşici", "japon"),
+        required_tags=("sushi",),
+        preferred_categories=("restaurant",),
+        min_google_rating=4.0,
+        min_google_reviews=20,
+        max_distance_m=6000,
+    ),
+    IntentProfile(
         name="study_quiet",
         triggers=("ders", "calis", "çalış", "study", "odak", "focus", "sessiz", "sakin"),
         required_tags=("ders", "sessiz"),
