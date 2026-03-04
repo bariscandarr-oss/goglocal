@@ -150,5 +150,12 @@
     "expect_any_areas": ["galata", "karakoy", "beyoglu"],
     "expect_any_categories": ["dessert", "restaurant", "cafe"],
     "top_k": 5
+  },
+  {
+    "id": "q021",
+    "query": "beylikduzunde kahve icmek istiyorum",
+    "expect_any_areas": ["beylikduzu", "bakirkoy", "zeytinburnu"],
+    "expect_any_categories": ["cafe", "restaurant"],
+    "top_k": 5
   }
 ]

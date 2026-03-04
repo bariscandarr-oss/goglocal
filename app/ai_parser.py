@@ -57,7 +57,7 @@ def _uniq(items: list[str]) -> list[str]:
 def _extract_area(normalized_query: str) -> str | None:
     aliases = sorted(AREA_ALIASES.keys(), key=len, reverse=True)
     for alias in aliases:
-        pattern = rf"\b{re.escape(alias)}(?:da|de|ta|te|daki|deki|dan|den)?\b"
+        pattern = rf"\b{re.escape(alias)}(?:da|de|ta|te|daki|deki|dan|den|nda|nde|ndaki|nden)?\b"
         if re.search(pattern, normalized_query):
             return AREA_ALIASES[alias]
     return None

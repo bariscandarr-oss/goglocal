@@ -25,6 +25,7 @@ AREA_CENTERS: dict[str, tuple[float, float]] = {
     "maslak": (41.1114, 29.0192),
     "sultanahmet": (41.0054, 28.9768),
     "cekmekoy": (41.0330, 29.1830),
+    "beylikduzu": (41.0019, 28.6407),
 }
 
 AREAS = list(AREA_CENTERS.keys())
@@ -61,6 +62,8 @@ AREA_ALIASES: dict[str, str] = {
     "sultanahmet": "sultanahmet",
     "cekmekoy": "cekmekoy",
     "çekmeköy": "cekmekoy",
+    "beylikduzu": "beylikduzu",
+    "beylikdüzü": "beylikduzu",
     "mecidiyekoy": "sisli_mecidiyekoy",
     "mecidiyeköy": "sisli_mecidiyekoy",
 }

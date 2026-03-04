@@ -16,6 +16,7 @@ from .storage import create_tables
 NEARBY_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
 NEARBY_NEW_URL = "https://places.googleapis.com/v1/places:searchNearby"
 TEXT_NEW_URL = "https://places.googleapis.com/v1/places:searchText"
+HTTP_TIMEOUT_S = float(os.getenv("GOOGLE_HTTP_TIMEOUT_SECONDS", "6.0"))
 
 
 @dataclass
@@ -128,7 +129,7 @@ def _normalize_text(text: str) -> str:
     return t.translate(tr_map)
 
 
-def _query_variants(query: str) -> list[str]:
+def _query_variants(query: str, area_specific: bool = False) -> list[str]:
     q = _normalize_text(query)
     variants: list[str] = [query]
 
@@ -152,7 +153,7 @@ def _query_variants(query: str) -> list[str]:
         if vv and vv not in seen:
             seen.add(vv)
             uniq.append(vv)
-    return uniq[:8]
+    return uniq[:4] if area_specific else uniq[:8]
 
 
 def _live_centers(area: str | None) -> list[str]:
@@ -160,7 +161,7 @@ def _live_centers(area: str | None) -> list[str]:
         c = AREA_CENTERS[area]
         return [f"{c[0]},{c[1]}"]
 
-    area_list = [x.strip() for x in os.getenv("GOOGLE_LIVE_AREAS", "kadikoy,besiktas,beyoglu,sisli,uskudar,cekmekoy").split(",") if x.strip()]
+    area_list = [x.strip() for x in os.getenv("GOOGLE_LIVE_AREAS", "kadikoy,besiktas,beyoglu,sisli,uskudar,cekmekoy,beylikduzu").split(",") if x.strip()]
     centers: list[str] = []
     for a in area_list:
         c = AREA_CENTERS.get(a)
@@ -188,7 +189,7 @@ def _fetch_nearby_legacy(api_key: str, center: str, radius: int, keyword: str | 
     if keyword:
         params["keyword"] = keyword
 
-    with httpx.Client(timeout=20.0) as client:
+    with httpx.Client(timeout=HTTP_TIMEOUT_S) as client:
         resp = client.get(NEARBY_URL, params=params)
         resp.raise_for_status()
         payload = resp.json()
@@ -229,7 +230,7 @@ def _fetch_nearby_new_by_type(api_key: str, center: str, radius: int, included_t
     lat, lng = center.split(",", 1)
     body = {
         "includedTypes": [included_type],
-        "maxResultCount": 20,
+        "maxResultCount": 12,
         "locationRestriction": {
             "circle": {
                 "center": {"latitude": float(lat), "longitude": float(lng)},
@@ -246,7 +247,7 @@ def _fetch_nearby_new_by_type(api_key: str, center: str, radius: int, included_t
         ),
     }
 
-    with httpx.Client(timeout=20.0) as client:
+    with httpx.Client(timeout=HTTP_TIMEOUT_S) as client:
         resp = client.post(NEARBY_NEW_URL, headers=headers, json=body)
         resp.raise_for_status()
         payload = resp.json()
@@ -278,7 +279,7 @@ def _fetch_text_new(api_key: str, center: str, radius: int, query: str) -> list[
     lat, lng = center.split(",", 1)
     body = {
         "textQuery": query,
-        "maxResultCount": 20,
+        "maxResultCount": 12,
         "locationBias": {
             "circle": {
                 "center": {"latitude": float(lat), "longitude": float(lng)},
@@ -295,7 +296,7 @@ def _fetch_text_new(api_key: str, center: str, radius: int, query: str) -> list[
         ),
     }
 
-    with httpx.Client(timeout=20.0) as client:
+    with httpx.Client(timeout=HTTP_TIMEOUT_S) as client:
         resp = client.post(TEXT_NEW_URL, headers=headers, json=body)
         resp.raise_for_status()
         payload = resp.json()
@@ -425,9 +426,9 @@ def search_google_places_live(
         return []
 
     default_radius = int(os.getenv("GOOGLE_SEARCH_RADIUS_METERS", "2500"))
-    search_radius = radius or (6000 if area else 3500)
+    search_radius = radius or (5200 if area else 3200)
     centers = _live_centers(area)
-    query_variants = _query_variants(query)
+    query_variants = _query_variants(query, area_specific=bool(area))
 
     combined: dict[str, GooglePlace] = {}
     for center in centers:
