@@ -178,6 +178,14 @@ def _required_hit_count(place: Place, intent: QueryIntent) -> int:
     return sum(1 for t in intent.required_tags if t in tags)
 
 
+def _strict_required_intent(intent: QueryIntent) -> bool:
+    strict_profiles = {"vegan_food", "sushi_food", "milk_dessert"}
+    if intent.profile in strict_profiles:
+        return True
+    strict_tags = {"vegan", "sushi", "sutlu_tatli"}
+    return bool(set(intent.required_tags).intersection(strict_tags))
+
+
 def _passes_hard_filters(place: Place, intent: QueryIntent) -> bool:
     tags = set(place.tags)
     # Keep hard filters minimal; tags are primarily ranking signals.
@@ -266,6 +274,10 @@ def _choose_candidates(places: list[Place], intent: QueryIntent, exclude_ids: se
                 area_with_required = [p for p in area_base if _required_hit_count(p, intent) >= 1]
                 if area_with_required:
                     return area_with_required
+                if _strict_required_intent(intent):
+                    # Do not fall back to unrelated places for strict intents like vegan/sushi/milk-dessert.
+                    broad_with_required = [p for p in pool if _required_hit_count(p, intent) >= 1]
+                    return broad_with_required
             if area_base:
                 return area_base
             broad_base = [p for p in pool if _passes_base_filters(p, intent)]
@@ -273,6 +285,8 @@ def _choose_candidates(places: list[Place], intent: QueryIntent, exclude_ids: se
                 broad_with_required = [p for p in broad_base if _required_hit_count(p, intent) >= 1]
                 if broad_with_required:
                     return broad_with_required
+                if _strict_required_intent(intent):
+                    return []
             if broad_base:
                 return broad_base
             return pool
@@ -288,6 +302,8 @@ def _choose_candidates(places: list[Place], intent: QueryIntent, exclude_ids: se
         with_required = [p for p in pool if _required_hit_count(p, intent) >= 1]
         if with_required:
             return with_required
+        if _strict_required_intent(intent):
+            return []
     return places
 
 
