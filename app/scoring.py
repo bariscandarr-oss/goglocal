@@ -48,6 +48,37 @@ def _milk_dessert_specificity(place: Place) -> float:
     return 0.0
 
 
+def _is_vegan_candidate(place: Place) -> bool:
+    tags = set(place.tags)
+    if "vegan" not in tags:
+        return False
+
+    name = place.name.lower()
+    vegan_signals = ["vegan", "plant", "bitkisel", "vejetaryen", "vegetarian"]
+    meat_signals = [
+        "kebap",
+        "kebab",
+        "et ",
+        "doner",
+        "döner",
+        "mangal",
+        "kasap",
+        "tavuk",
+        "chicken",
+        "steak",
+        "burger",
+        "balik",
+        "balık",
+        "kokorec",
+        "kokoreç",
+    ]
+    has_vegan_name = any(s in name for s in vegan_signals)
+    has_meat_name = any(s in name for s in meat_signals)
+    if has_meat_name and not has_vegan_name:
+        return False
+    return True
+
+
 def _normalize_google_score(rating: float, reviews: int) -> float:
     rating_part = min(max(rating / 5.0, 0.0), 1.0)
     review_part = min(math.log10(max(reviews, 1)) / 4.0, 1.0)
@@ -207,6 +238,8 @@ def _passes_hard_filters(place: Place, intent: QueryIntent) -> bool:
         return False
     if "kalabalik" in set(intent.excluded_tags) and place.quietness_level == 1:
         return False
+    if "vegan" in set(intent.required_tags) and not _is_vegan_candidate(place):
+        return False
     if intent.required_tags and any(t not in tags for t in intent.required_tags):
         return False
     if "sutlu_tatli" in set(intent.required_tags) and not _is_milk_dessert_candidate(place):
@@ -237,6 +270,8 @@ def _passes_base_filters(place: Place, intent: QueryIntent) -> bool:
     if "sessiz" in set(intent.required_tags) and place.quietness_level == 1:
         return False
     if "kalabalik" in set(intent.excluded_tags) and place.quietness_level == 1:
+        return False
+    if "vegan" in set(intent.required_tags) and not _is_vegan_candidate(place):
         return False
     return True
 
@@ -276,7 +311,7 @@ def _choose_candidates(places: list[Place], intent: QueryIntent, exclude_ids: se
                     return area_with_required
                 if _strict_required_intent(intent):
                     # Do not fall back to unrelated places for strict intents like vegan/sushi/milk-dessert.
-                    broad_with_required = [p for p in pool if _required_hit_count(p, intent) >= 1]
+                    broad_with_required = [p for p in pool if _required_hit_count(p, intent) >= 1 and _is_in_area(p, intent.area, radius_m=9000)]
                     return broad_with_required
             if area_base:
                 return area_base
