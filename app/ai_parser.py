@@ -27,6 +27,33 @@ CATEGORY_MAP = {
     "dessert": ["tatli", "tatlı", "dessert", "pastane", "bakery", "muhallebi", "sutlac", "sütlaç", "kazandibi"],
 }
 
+NOISE_WORDS = {
+    "yer",
+    "mekan",
+    "mekani",
+    "mekanı",
+    "ariyorum",
+    "istiyorum",
+    "isterim",
+    "olur",
+    "olsun",
+    "civarinda",
+    "civarında",
+    "yakinda",
+    "yakınında",
+    "icmek",
+    "içmek",
+    "yemek",
+    "gidilecek",
+    "oner",
+    "oneri",
+    "onerir",
+    "en",
+    "iyi",
+    "kaliteli",
+    "lezzetli",
+}
+
 
 def _normalize(text: str) -> str:
     text = text.lower().strip()
@@ -96,9 +123,12 @@ def _parse_with_rules(query: str) -> QueryIntent:
     if any(k in q for k in ["ucuz", "cheap", "öğrenci", "ogrenci"]):
         max_price_level = 2
 
+    must_keywords = _extract_must_keywords(q=q, area=area)
+
     return QueryIntent(
         profile=None,
         area=area,
+        must_keywords=must_keywords,
         required_tags=_uniq(required_tags),
         optional_tags=_uniq(optional_tags),
         excluded_tags=_uniq(excluded_tags),
@@ -109,6 +139,32 @@ def _parse_with_rules(query: str) -> QueryIntent:
         min_google_reviews=None,
         max_distance_m=None,
     )
+
+
+def _extract_must_keywords(q: str, area: str | None) -> list[str]:
+    words = re.findall(r"[a-z0-9]+", q)
+    skip: set[str] = set(NOISE_WORDS)
+    skip.update(AREA_ALIASES.keys())
+    if area:
+        skip.update([area])
+    for values in TAG_MAP.values():
+        skip.update([_normalize(v) for v in values])
+    for values in CATEGORY_MAP.values():
+        skip.update([_normalize(v) for v in values])
+
+    out: list[str] = []
+    seen: set[str] = set()
+    for w in words:
+        if len(w) < 4:
+            continue
+        if w in skip:
+            continue
+        if w.isdigit():
+            continue
+        if w not in seen:
+            seen.add(w)
+            out.append(w)
+    return out[:3]
 
 
 def _parse_with_openai(query: str) -> QueryIntent | None:
@@ -130,7 +186,7 @@ def _parse_with_openai(query: str) -> QueryIntent | None:
                     "content": (
                         "User place-search query to strict JSON intent converter. "
                         "Return only JSON with keys: area, required_tags, optional_tags, excluded_tags, "
-                        "preferred_categories, open_now, max_price_level, min_google_rating, min_google_reviews, max_distance_m."
+                        "preferred_categories, open_now, max_price_level, min_google_rating, min_google_reviews, max_distance_m, must_keywords."
                     ),
                 },
                 {"role": "user", "content": query},

@@ -16,6 +16,7 @@ class SearchRequest(BaseModel):
 class QueryIntent(BaseModel):
     profile: str | None = None
     area: str | None = None
+    must_keywords: list[str] = Field(default_factory=list)
     required_tags: list[str] = Field(default_factory=list)
     optional_tags: list[str] = Field(default_factory=list)
     excluded_tags: list[str] = Field(default_factory=list)

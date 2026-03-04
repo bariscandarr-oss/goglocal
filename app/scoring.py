@@ -154,6 +154,12 @@ def _compute_relevance(place: Place, intent: QueryIntent) -> float:
     if "sutlu_tatli" in set(intent.required_tags):
         score += 0.10 * _milk_dessert_specificity(place)
 
+    if intent.must_keywords:
+        khit = _keyword_hit_rate(place, intent.must_keywords)
+        score += 0.22 * khit
+        if khit == 0:
+            score -= 0.18
+
     return min(max(score, 0.0), 1.0)
 
 
@@ -209,6 +215,40 @@ def _required_hit_count(place: Place, intent: QueryIntent) -> int:
     return sum(1 for t in intent.required_tags if t in tags)
 
 
+def _expand_keyword(kw: str) -> set[str]:
+    m = {
+        "kahve": {"coffee", "cafe", "kafe"},
+        "kahveci": {"coffee", "cafe", "kafe"},
+        "sushici": {"sushi"},
+        "susi": {"sushi"},
+        "suşi": {"sushi"},
+        "tatli": {"dessert", "tatli", "tatlı"},
+        "tatlı": {"dessert", "tatli", "tatlı"},
+    }
+    out = {kw}
+    out.update(m.get(kw, set()))
+    return out
+
+
+def _place_text_tokens(place: Place) -> set[str]:
+    text = f"{place.name} {place.category} {' '.join(place.tags)}".lower()
+    text = text.replace("ç", "c").replace("ğ", "g").replace("ı", "i").replace("ö", "o").replace("ş", "s").replace("ü", "u")
+    toks = set(re.findall(r"[a-z0-9]+", text))
+    return toks
+
+
+def _keyword_hit_rate(place: Place, must_keywords: list[str]) -> float:
+    if not must_keywords:
+        return 1.0
+    toks = _place_text_tokens(place)
+    hits = 0
+    for kw in must_keywords:
+        variants = _expand_keyword(kw)
+        if variants.intersection(toks):
+            hits += 1
+    return hits / len(must_keywords)
+
+
 def _strict_required_intent(intent: QueryIntent) -> bool:
     strict_profiles = {"vegan_food", "sushi_food", "milk_dessert"}
     if intent.profile in strict_profiles:
@@ -248,6 +288,8 @@ def _passes_hard_filters(place: Place, intent: QueryIntent) -> bool:
         return False
     if "high_rating" in set(intent.optional_tags) and (place.google_rating < 4.0 or place.google_reviews < 10):
         return False
+    if _strict_required_intent(intent) and intent.must_keywords and _keyword_hit_rate(place, intent.must_keywords) == 0:
+        return False
     return True
 
 
@@ -272,6 +314,8 @@ def _passes_base_filters(place: Place, intent: QueryIntent) -> bool:
     if "kalabalik" in set(intent.excluded_tags) and place.quietness_level == 1:
         return False
     if "vegan" in set(intent.required_tags) and not _is_vegan_candidate(place):
+        return False
+    if _strict_required_intent(intent) and intent.must_keywords and _keyword_hit_rate(place, intent.must_keywords) == 0:
         return False
     return True
 
@@ -423,6 +467,12 @@ def score_places(
                 reasons.append(f"{_human_tag(t)} kriterini sağlıyor")
             else:
                 reasons.append(f"{_human_tag(t)} için tam eşleşme yok, alternatif öneri")
+        if intent.must_keywords:
+            khit = _keyword_hit_rate(place, intent.must_keywords)
+            if khit > 0:
+                reasons.append("sorgudaki anahtar kelimelerle eşleşiyor")
+            else:
+                reasons.append("anahtar kelime eşleşmesi düşük")
         for t in intent.excluded_tags:
             if t in tags:
                 reasons.append(f"{_human_tag(t)} olabileceği için daha düşük puan")

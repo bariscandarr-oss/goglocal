@@ -37,6 +37,8 @@ def _grounded_points(intent: QueryIntent, item: ScoredPlace) -> list[str]:
         points.append("şu an açık")
     if intent.max_price_level is not None and p.price_level <= intent.max_price_level:
         points.append("bütçe sınırına uygun")
+    if intent.must_keywords:
+        points.append("sorgudaki anahtar kelimelerle uyumlu")
     if intent.min_google_rating is not None and p.google_rating >= intent.min_google_rating:
         points.append(f"puanı en az {intent.min_google_rating:.1f}")
     if intent.min_google_reviews is not None and p.google_reviews >= intent.min_google_reviews:
