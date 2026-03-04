@@ -142,6 +142,12 @@ def _parse_with_rules(query: str) -> QueryIntent:
 
 
 def _extract_must_keywords(q: str, area: str | None) -> list[str]:
+    def stem_locative(word: str) -> str:
+        for suf in ["ndaki", "nde", "nda", "daki", "deki", "dan", "den", "de", "da", "ta", "te"]:
+            if word.endswith(suf) and len(word) - len(suf) >= 4:
+                return word[: -len(suf)]
+        return word
+
     words = re.findall(r"[a-z0-9]+", q)
     skip: set[str] = set(NOISE_WORDS)
     skip.update(AREA_ALIASES.keys())
@@ -155,9 +161,12 @@ def _extract_must_keywords(q: str, area: str | None) -> list[str]:
     out: list[str] = []
     seen: set[str] = set()
     for w in words:
+        w = stem_locative(w)
         if len(w) < 4:
             continue
         if w in skip:
+            continue
+        if w in AREA_ALIASES:
             continue
         if w.isdigit():
             continue
