@@ -1,0 +1,154 @@
+[
+  {
+    "id": "q001",
+    "query": "kadikoyde sushici ariyorum",
+    "expect_any_tags": ["sushi"],
+    "expect_any_areas": ["kadikoy", "moda"],
+    "expect_any_categories": ["restaurant"],
+    "top_k": 5
+  },
+  {
+    "id": "q002",
+    "query": "besiktasta vegan bir yer ariyorum",
+    "expect_any_tags": ["vegan"],
+    "expect_any_areas": ["besiktas"],
+    "expect_any_categories": ["restaurant", "cafe"],
+    "top_k": 5
+  },
+  {
+    "id": "q003",
+    "query": "cekmekoyde lezzetli sutlu tatlilar yemek istiyorum",
+    "expect_any_tags": ["sutlu_tatli"],
+    "expect_any_areas": ["cekmekoy"],
+    "expect_any_categories": ["dessert", "restaurant"],
+    "top_k": 5
+  },
+  {
+    "id": "q004",
+    "query": "kadikoyde sessiz ders calisabilecegim yer",
+    "expect_any_tags": ["ders", "sessiz"],
+    "expect_any_areas": ["kadikoy", "moda"],
+    "expect_any_categories": ["cafe", "library", "coworking"],
+    "top_k": 5
+  },
+  {
+    "id": "q005",
+    "query": "beyoglunda kahvalti yapabilecegim mekan",
+    "expect_any_areas": ["beyoglu", "cihangir", "karakoy", "galata", "taksim"],
+    "expect_any_categories": ["restaurant", "cafe"],
+    "top_k": 5
+  },
+  {
+    "id": "q006",
+    "query": "uskudarda sakin kahve iciyorum",
+    "expect_any_tags": ["sessiz"],
+    "expect_any_areas": ["uskudar"],
+    "expect_any_categories": ["cafe"],
+    "top_k": 5
+  },
+  {
+    "id": "q007",
+    "query": "sislide coworking ve priz olan yer",
+    "expect_any_tags": ["priz", "ders"],
+    "expect_any_areas": ["sisli", "sisli_mecidiyekoy", "mecidiyekoy"],
+    "expect_any_categories": ["coworking", "cafe", "library"],
+    "top_k": 5
+  },
+  {
+    "id": "q008",
+    "query": "atasehirde ucuz yemek",
+    "expect_any_areas": ["atasehir"],
+    "expect_any_categories": ["restaurant"],
+    "top_k": 5
+  },
+  {
+    "id": "q009",
+    "query": "fatihte suan acik cafe",
+    "expect_any_areas": ["fatih", "sultanahmet"],
+    "expect_any_categories": ["cafe", "restaurant"],
+    "top_k": 5
+  },
+  {
+    "id": "q010",
+    "query": "sariyerde kaliteli kahveci",
+    "expect_any_areas": ["sariyer", "maslak", "levent"],
+    "expect_any_categories": ["cafe"],
+    "top_k": 5
+  },
+  {
+    "id": "q011",
+    "query": "kartalda sushi restoran",
+    "expect_any_tags": ["sushi"],
+    "expect_any_areas": ["kartal", "maltepe", "pendik"],
+    "expect_any_categories": ["restaurant"],
+    "top_k": 5
+  },
+  {
+    "id": "q012",
+    "query": "maltepede vegan cafe",
+    "expect_any_tags": ["vegan"],
+    "expect_any_areas": ["maltepe", "kartal"],
+    "expect_any_categories": ["cafe", "restaurant"],
+    "top_k": 5
+  },
+  {
+    "id": "q013",
+    "query": "taksimde gece acik yemek",
+    "expect_any_areas": ["taksim", "beyoglu", "cihangir"],
+    "expect_any_categories": ["restaurant", "cafe"],
+    "top_k": 5
+  },
+  {
+    "id": "q014",
+    "query": "bakirkoyde sutlac yiyebilecegim yer",
+    "expect_any_tags": ["sutlu_tatli"],
+    "expect_any_areas": ["bakirkoy", "zeytinburnu"],
+    "expect_any_categories": ["dessert", "restaurant"],
+    "top_k": 5
+  },
+  {
+    "id": "q015",
+    "query": "modada sessiz ve wifi olan cafe",
+    "expect_any_tags": ["sessiz", "wifi"],
+    "expect_any_areas": ["moda", "kadikoy"],
+    "expect_any_categories": ["cafe"],
+    "top_k": 5
+  },
+  {
+    "id": "q016",
+    "query": "cihangirde kahve icilecek sakin mekan",
+    "expect_any_areas": ["cihangir", "beyoglu", "taksim"],
+    "expect_any_categories": ["cafe"],
+    "top_k": 5
+  },
+  {
+    "id": "q017",
+    "query": "karakoyde japon restoran",
+    "expect_any_tags": ["sushi"],
+    "expect_any_areas": ["karakoy", "galata", "beyoglu"],
+    "expect_any_categories": ["restaurant"],
+    "top_k": 5
+  },
+  {
+    "id": "q018",
+    "query": "pendikte cocukla gidilebilecek sakin restoran",
+    "expect_any_areas": ["pendik", "kartal"],
+    "expect_any_categories": ["restaurant", "cafe"],
+    "top_k": 5
+  },
+  {
+    "id": "q019",
+    "query": "leventte toplanti yapabilecegim sessiz cafe",
+    "expect_any_tags": ["sessiz", "ders"],
+    "expect_any_areas": ["levent", "maslak", "sisli"],
+    "expect_any_categories": ["cafe", "coworking"],
+    "top_k": 5
+  },
+  {
+    "id": "q020",
+    "query": "galatada tatli yiyecegim yer",
+    "expect_any_areas": ["galata", "karakoy", "beyoglu"],
+    "expect_any_categories": ["dessert", "restaurant", "cafe"],
+    "top_k": 5
+  }
+]

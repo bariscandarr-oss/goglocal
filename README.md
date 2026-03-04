@@ -106,6 +106,22 @@ curl -X PUT http://127.0.0.1:8080/users/profile \
 curl http://127.0.0.1:8080/users/profile/baris
 ```
 
+## Kalite olcumu (test seti)
+Test sorgulari:
+- `/Users/bariscandar/Documents/goglocal/data/test_queries.json`
+
+Calistir:
+```bash
+cd /Users/bariscandar/Documents/goglocal
+source .venv/bin/activate
+python -m app.eval_quality --base-url https://goglocal.app
+```
+
+Opsiyonel:
+```bash
+python -m app.eval_quality --base-url http://127.0.0.1:8080 --dataset data/test_queries.json
+```
+
 ## Ortam degiskenleri
 `.env.example`:
 - `OPENAI_API_KEY`
