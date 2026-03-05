@@ -11,7 +11,7 @@ from fastapi.staticfiles import StaticFiles
 
 from .ai_parser import parse_query_intent_with_source
 from .explainer import add_recommendation_summaries
-from .models import FeedbackRequest, Place, SearchRequest, SearchResponse, UserProfileRequest, UserProfileResponse
+from .models import FeedbackRequest, Place, QueryIntent, ScoredPlace, SearchRequest, SearchResponse, UserProfileRequest, UserProfileResponse
 from .scoring import score_places
 from .seed import seed_from_json
 from .ingest_google import ingest_google_places, search_google_places_live
@@ -87,7 +87,13 @@ def search_places(payload: SearchRequest) -> SearchResponse:
     intent, parser_source = parse_query_intent_with_source(payload.query)
     if storage_source == "json":
         try:
-            live_places = search_google_places_live(query=payload.query, area=intent.area)
+            live_places = search_google_places_live(
+                query=payload.query,
+                area=intent.area,
+                profile=intent.profile,
+                required_tags=intent.required_tags,
+                must_keywords=intent.must_keywords,
+            )
         except Exception:
             live_places = []
         if live_places:
@@ -112,6 +118,13 @@ def search_places(payload: SearchRequest) -> SearchResponse:
     scored = score_places(places, intent, merged_tags, payload.exclude_place_ids)
     top_results = scored[: payload.max_results]
     summary_source = add_recommendation_summaries(query=payload.query, intent=intent, results=top_results)
+    no_result_reason = _build_no_result_reason(
+        places=places,
+        intent=intent,
+        parser_source=parser_source,
+        storage_source=storage_source,
+        results=top_results,
+    )
 
     return SearchResponse(
         interpreted_intent=intent,
@@ -124,6 +137,7 @@ def search_places(payload: SearchRequest) -> SearchResponse:
             "total_candidates": len(places),
             "effective_user_tags": merged_tags,
             "profile_budget": profile_budget,
+            "no_result_reason": no_result_reason,
         },
     )
 
@@ -156,3 +170,30 @@ def read_profile(user_id: str) -> UserProfileResponse:
         raise HTTPException(status_code=404, detail="profile_not_found")
     tags, budget_level, home_area = profile
     return UserProfileResponse(user_id=user_id, tags=tags, budget_level=budget_level, home_area=home_area)
+
+
+def _build_no_result_reason(
+    places: list[Place],
+    intent: QueryIntent,
+    parser_source: str,
+    storage_source: str,
+    results: list[ScoredPlace],
+) -> str | None:
+    if results:
+        return None
+    if not places:
+        return "Veri kaynağında mekan yok. Önce seed/ingest yapılmalı."
+    if intent.area:
+        in_area = sum(1 for p in places if p.area == intent.area)
+        if in_area == 0:
+            return f"{intent.area} için veri yok. Bölge ingest listesine ekleyip tekrar deneyin."
+    if intent.required_tags:
+        need = ",".join(intent.required_tags)
+        return f"Filtreler çok dar kaldı (gerekli etiketler: {need}). Alanı genişletin veya sorguyu sadeleştirin."
+    if intent.must_keywords:
+        return "Anahtar kelime eşleşmesi bulunamadı. Daha genel terimlerle tekrar deneyin."
+    if parser_source == "rules":
+        return "Sorgu kural tabanlı yorumlandı. OpenAI parser etkinse daha iyi intent ayrıştırma olabilir."
+    if storage_source in {"json", "json+live_google"}:
+        return "Canlı kaynaktan uygun sonuç bulunamadı. Farklı kelime veya yakın semt deneyin."
+    return "Uygun sonuç bulunamadı."

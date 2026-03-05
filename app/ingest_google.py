@@ -129,31 +129,66 @@ def _normalize_text(text: str) -> str:
     return t.translate(tr_map)
 
 
-def _query_variants(query: str, area_specific: bool = False) -> list[str]:
+def _query_variants(
+    query: str,
+    area_specific: bool = False,
+    area: str | None = None,
+    profile: str | None = None,
+    required_tags: list[str] | None = None,
+    must_keywords: list[str] | None = None,
+) -> list[str]:
     q = _normalize_text(query)
     variants: list[str] = [query]
 
-    if any(k in q for k in ["vegan", "bitkisel", "plant"]):
-        variants.extend(["vegan restaurant", "vegan cafe", "plant based food"])
-    if any(k in q for k in ["sutlu", "sutlac", "muhallebi", "kazandibi", "dessert", "tatli"]):
-        variants.extend(["sutlu tatli", "muhallebi", "dessert"])
-    if any(k in q for k in ["ders", "study", "calis", "focus", "sessiz", "quiet", "sakin"]):
-        variants.extend(["quiet cafe", "study cafe", "coworking space"])
+    required = set(required_tags or [])
+    must_kw = [x.strip() for x in (must_keywords or []) if x.strip()]
+    area_phrase = f"{area} " if area else ""
+
+    def add(*items: str) -> None:
+        for item in items:
+            if item.strip():
+                variants.append(item.strip())
+
+    if profile == "vegan_food" or "vegan" in required or any(k in q for k in ["vegan", "bitkisel", "plant"]):
+        add(
+            f"{area_phrase}vegan restaurant",
+            f"{area_phrase}vegan cafe",
+            f"{area_phrase}vejetaryen restoran",
+            "plant based food",
+        )
+    if profile == "milk_dessert" or "sutlu_tatli" in required or any(k in q for k in ["sutlu", "sutlac", "muhallebi", "kazandibi", "dessert", "tatli"]):
+        add(
+            f"{area_phrase}sutlu tatli",
+            f"{area_phrase}muhallebici",
+            f"{area_phrase}pastane",
+            "dessert shop",
+        )
+    if profile == "study_quiet" or any(k in q for k in ["ders", "study", "calis", "focus", "sessiz", "quiet", "sakin"]):
+        add(f"{area_phrase}quiet cafe", f"{area_phrase}study cafe", f"{area_phrase}coworking space")
+    if profile == "sushi_food" or "sushi" in required or any(k in q for k in ["sushi", "sushici", "susi", "japon", "suşi", "suşici"]):
+        add(
+            f"{area_phrase}sushi restaurant",
+            f"{area_phrase}japanese restaurant",
+            f"{area_phrase}sushici",
+            "sushi bar",
+        )
     if any(k in q for k in ["kahve", "coffee", "kafe", "cafe"]):
-        variants.append("cafe")
+        add(f"{area_phrase}cafe", "coffee shop")
     if any(k in q for k in ["restoran", "restaurant", "yemek"]):
-        variants.append("restaurant")
-    if any(k in q for k in ["sushi", "sushici", "susi", "japon", "suşi", "suşici"]):
-        variants.extend(["sushi restaurant", "japanese restaurant", "sushi bar"])
+        add(f"{area_phrase}restaurant")
+
+    for kw in must_kw[:2]:
+        add(f"{area_phrase}{kw}", f"{kw} {area}" if area else kw)
 
     seen: set[str] = set()
     uniq: list[str] = []
     for v in variants:
         vv = v.strip()
-        if vv and vv not in seen:
-            seen.add(vv)
+        nv = _normalize_text(vv)
+        if vv and nv not in seen:
+            seen.add(nv)
             uniq.append(vv)
-    return uniq[:4] if area_specific else uniq[:8]
+    return uniq[:7] if area_specific else uniq[:12]
 
 
 def _live_centers(area: str | None) -> list[str]:
@@ -418,6 +453,9 @@ def ingest_google_places() -> int:
 def search_google_places_live(
     query: str,
     area: str | None = None,
+    profile: str | None = None,
+    required_tags: list[str] | None = None,
+    must_keywords: list[str] | None = None,
     radius: int | None = None,
     max_count: int = 120,
 ) -> list[Place]:
@@ -425,10 +463,16 @@ def search_google_places_live(
     if not api_key:
         return []
 
-    default_radius = int(os.getenv("GOOGLE_SEARCH_RADIUS_METERS", "2500"))
     search_radius = radius or (5200 if area else 3200)
     centers = _live_centers(area)
-    query_variants = _query_variants(query, area_specific=bool(area))
+    query_variants = _query_variants(
+        query=query,
+        area_specific=bool(area),
+        area=area,
+        profile=profile,
+        required_tags=required_tags,
+        must_keywords=must_keywords,
+    )
 
     combined: dict[str, GooglePlace] = {}
     for center in centers:

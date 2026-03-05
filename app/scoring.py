@@ -93,7 +93,8 @@ def _compute_local_score(place: Place) -> float:
     # For live/free mode data with no local votes, avoid flat 0.2 local score.
     if total == 0 and weighted_total == 0:
         crowd_proxy = min(math.log10(max(place.google_reviews, 1)) / 4.0, 1.0)
-        return (0.28) + (0.52 * crowd_proxy) + (0.20 * freshness)
+        rating_proxy = min(max(place.google_rating / 5.0, 0.0), 1.0)
+        return (0.18) + (0.42 * crowd_proxy) + (0.25 * rating_proxy) + (0.15 * freshness)
 
     vote_quality = place.local_votes_up / max(total, 1)
     authentic_quality = place.local_weighted_up / max(weighted_total, 1e-6) if weighted_total > 0 else vote_quality
@@ -104,7 +105,9 @@ def _local_reason(place: Place, local_score: float, local_authenticity: float) -
     total = place.local_votes_up + place.local_votes_down
     weighted_total = place.local_weighted_up + place.local_weighted_down
     if total == 0 and weighted_total == 0:
-        return f"yerel puan {local_score:.2f}: yerel oy az, topluluk sinyali (yorum) baz alındı"
+        return (
+            f"yerel puan {local_score:.2f}: yerel oy az, Google puanı/yorum ve güncellik baz alındı"
+        )
     return (
         f"yerel puan {local_score:.2f}: "
         f"{place.local_votes_up}/{max(total,1)} olumlu oy, otantiklik {local_authenticity:.2f}"
@@ -341,34 +344,22 @@ def _choose_candidates(places: list[Place], intent: QueryIntent, exclude_ids: se
             return strict_in_area
 
         if has_specific_constraints:
-            relaxed_zone = [p for p in pool if _passes_base_filters(p, intent) and _is_in_area(p, intent.area, radius_m=7000)]
+            relaxed_zone = [p for p in pool if _passes_base_filters(p, intent) and _is_in_area(p, intent.area, radius_m=8000)]
             if relaxed_zone and intent.required_tags:
                 min_hits = max(1, math.ceil(len(intent.required_tags) / 2))
                 relaxed_zone = [p for p in relaxed_zone if sum(1 for t in intent.required_tags if t in set(p.tags)) >= min_hits]
             if relaxed_zone:
                 return relaxed_zone
-            # Fallback: avoid empty responses on sparse datasets (e.g., free/json mode).
-            area_base = [p for p in pool if _is_in_area(p, intent.area)]
+            area_base = [p for p in pool if _passes_base_filters(p, intent) and _is_in_area(p, intent.area, radius_m=12000)]
             if intent.required_tags:
                 area_with_required = [p for p in area_base if _required_hit_count(p, intent) >= 1]
                 if area_with_required:
                     return area_with_required
                 if _strict_required_intent(intent):
-                    # Do not fall back to unrelated places for strict intents like vegan/sushi/milk-dessert.
-                    broad_with_required = [p for p in pool if _required_hit_count(p, intent) >= 1 and _is_in_area(p, intent.area, radius_m=9000)]
-                    return broad_with_required
+                    return []
             if area_base:
                 return area_base
-            broad_base = [p for p in pool if _passes_base_filters(p, intent)]
-            if intent.required_tags:
-                broad_with_required = [p for p in broad_base if _required_hit_count(p, intent) >= 1]
-                if broad_with_required:
-                    return broad_with_required
-                if _strict_required_intent(intent):
-                    return []
-            if broad_base:
-                return broad_base
-            return pool
+            return []
 
         area_only = [p for p in pool if _is_in_area(p, intent.area)]
         if area_only:
