@@ -1,4 +1,4 @@
-.PHONY: up down init-db seed-google seed-json ingest-google-api run
+.PHONY: up down init-db seed-google seed-json ingest-google-api run quality-prod quality-local quality-gate
 
 up:
 	docker compose up -d
@@ -20,3 +20,11 @@ ingest-google-api:
 
 run:
 	uvicorn app.main:app --reload --port 8080
+
+quality-prod:
+	python -m app.eval_quality --base-url https://goglocal.app --dataset data/test_queries.json --min-pass-rate 85
+
+quality-local:
+	python -m app.eval_quality --base-url http://127.0.0.1:8080 --dataset data/test_queries.json --min-pass-rate 85
+
+quality-gate: quality-prod

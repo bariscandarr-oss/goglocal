@@ -122,6 +122,22 @@ Opsiyonel:
 python -m app.eval_quality --base-url http://127.0.0.1:8080 --dataset data/test_queries.json
 ```
 
+Quality gate (deploy oncesi):
+```bash
+make quality-gate
+```
+
+Esik degeriyle:
+```bash
+python -m app.eval_quality --base-url https://goglocal.app --dataset data/test_queries.json --min-pass-rate 85
+```
+
+GitHub Actions quality gate:
+- Workflow: `/Users/bariscandar/Documents/goglocal/.github/workflows/quality-gate.yml`
+- Opsiyonel repo variables:
+  - `QUALITY_BASE_URL` (default: `https://goglocal.app`)
+  - `QUALITY_MIN_PASS_RATE` (default: `85`)
+
 ## Ortam degiskenleri
 `.env.example`:
 - `OPENAI_API_KEY`

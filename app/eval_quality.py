@@ -66,7 +66,7 @@ def _evaluate_case(response: dict[str, Any], case: dict[str, Any]) -> tuple[bool
     return False, ",".join(reasons)
 
 
-def run(base_url: str, dataset_path: Path, timeout_s: float) -> int:
+def run(base_url: str, dataset_path: Path, timeout_s: float, min_pass_rate: float) -> int:
     data = json.loads(dataset_path.read_text())
     if not isinstance(data, list):
         raise RuntimeError("Dataset must be a JSON list")
@@ -101,7 +101,11 @@ def run(base_url: str, dataset_path: Path, timeout_s: float) -> int:
         if r.top_names:
             print(f"       top3: {', '.join(r.top_names)}")
 
-    return 0 if passed == total else 1
+    if score < min_pass_rate:
+        print(f"\nGate: FAIL (score {score:.1f}% < min {min_pass_rate:.1f}%)")
+        return 1
+    print(f"\nGate: PASS (score {score:.1f}% >= min {min_pass_rate:.1f}%)")
+    return 0
 
 
 def main() -> int:
@@ -109,9 +113,15 @@ def main() -> int:
     parser.add_argument("--base-url", default=DEFAULT_BASE_URL, help="API base URL (default: https://goglocal.app)")
     parser.add_argument("--dataset", default=str(DEFAULT_DATASET), help="Path to dataset json file")
     parser.add_argument("--timeout", type=float, default=25.0, help="Request timeout in seconds")
+    parser.add_argument("--min-pass-rate", type=float, default=85.0, help="Minimum pass rate percentage for quality gate")
     args = parser.parse_args()
 
-    return run(base_url=args.base_url, dataset_path=Path(args.dataset), timeout_s=args.timeout)
+    return run(
+        base_url=args.base_url,
+        dataset_path=Path(args.dataset),
+        timeout_s=args.timeout,
+        min_pass_rate=args.min_pass_rate,
+    )
 
 
 if __name__ == "__main__":

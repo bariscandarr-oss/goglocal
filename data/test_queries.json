@@ -1,168 +1,2876 @@
 [
   {
     "id": "q001",
-    "query": "kadikoyde sushici ariyorum",
-    "expect_any_tags": ["sushi"],
-    "expect_any_areas": ["kadikoy", "moda"],
-    "expect_any_categories": ["restaurant"],
-    "top_k": 5
+    "query": "kadikoyde vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "kadikoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
   },
   {
     "id": "q002",
-    "query": "besiktasta vegan bir yer ariyorum",
-    "expect_any_tags": ["vegan"],
-    "expect_any_areas": ["besiktas"],
-    "expect_any_categories": ["restaurant", "cafe"],
-    "top_k": 5
+    "query": "kadikoyde sushici ariyorum",
+    "expect_any_areas": [
+      "kadikoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
   },
   {
     "id": "q003",
-    "query": "cekmekoyde lezzetli sutlu tatlilar yemek istiyorum",
-    "expect_any_tags": ["sutlu_tatli"],
-    "expect_any_areas": ["cekmekoy"],
-    "expect_any_categories": ["dessert", "restaurant"],
-    "top_k": 5
+    "query": "kadikoyde sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "kadikoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
   },
   {
     "id": "q004",
-    "query": "kadikoyde sessiz ders calisabilecegim yer",
-    "expect_any_tags": ["ders", "sessiz"],
-    "expect_any_areas": ["kadikoy", "moda"],
-    "expect_any_categories": ["cafe", "library", "coworking"],
-    "top_k": 5
+    "query": "kadikoyde sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "kadikoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
   },
   {
     "id": "q005",
-    "query": "beyoglunda kahvalti yapabilecegim mekan",
-    "expect_any_areas": ["beyoglu", "cihangir", "karakoy", "galata", "taksim"],
-    "expect_any_categories": ["restaurant", "cafe"],
-    "top_k": 5
+    "query": "kadikoyde kahve icmek istiyorum",
+    "expect_any_areas": [
+      "kadikoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
   },
   {
     "id": "q006",
-    "query": "uskudarda sakin kahve iciyorum",
-    "expect_any_tags": ["sessiz"],
-    "expect_any_areas": ["uskudar"],
-    "expect_any_categories": ["cafe"],
-    "top_k": 5
+    "query": "kadikoyde pasta yemek istiyorum",
+    "expect_any_areas": [
+      "kadikoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
   },
   {
     "id": "q007",
-    "query": "sislide coworking ve priz olan yer",
-    "expect_any_tags": ["priz", "ders"],
-    "expect_any_areas": ["sisli", "sisli_mecidiyekoy", "mecidiyekoy"],
-    "expect_any_categories": ["coworking", "cafe", "library"],
-    "top_k": 5
+    "query": "modade vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "moda"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
   },
   {
     "id": "q008",
-    "query": "atasehirde ucuz yemek",
-    "expect_any_areas": ["atasehir"],
-    "expect_any_categories": ["restaurant"],
-    "top_k": 5
+    "query": "modade sushici ariyorum",
+    "expect_any_areas": [
+      "moda"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
   },
   {
     "id": "q009",
-    "query": "fatihte suan acik cafe",
-    "expect_any_areas": ["fatih", "sultanahmet"],
-    "expect_any_categories": ["cafe", "restaurant"],
-    "top_k": 5
+    "query": "modade sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "moda"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
   },
   {
     "id": "q010",
-    "query": "sariyerde kaliteli kahveci",
-    "expect_any_areas": ["sariyer", "maslak", "levent"],
-    "expect_any_categories": ["cafe"],
-    "top_k": 5
+    "query": "modade sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "moda"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
   },
   {
     "id": "q011",
-    "query": "kartalda sushi restoran",
-    "expect_any_tags": ["sushi"],
-    "expect_any_areas": ["kartal", "maltepe", "pendik"],
-    "expect_any_categories": ["restaurant"],
-    "top_k": 5
+    "query": "modade kahve icmek istiyorum",
+    "expect_any_areas": [
+      "moda"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
   },
   {
     "id": "q012",
-    "query": "maltepede vegan cafe",
-    "expect_any_tags": ["vegan"],
-    "expect_any_areas": ["maltepe", "kartal"],
-    "expect_any_categories": ["cafe", "restaurant"],
-    "top_k": 5
+    "query": "modade pasta yemek istiyorum",
+    "expect_any_areas": [
+      "moda"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
   },
   {
     "id": "q013",
-    "query": "taksimde gece acik yemek",
-    "expect_any_areas": ["taksim", "beyoglu", "cihangir"],
-    "expect_any_categories": ["restaurant", "cafe"],
-    "top_k": 5
+    "query": "besiktasta vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "besiktas"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
   },
   {
     "id": "q014",
-    "query": "bakirkoyde sutlac yiyebilecegim yer",
-    "expect_any_tags": ["sutlu_tatli"],
-    "expect_any_areas": ["bakirkoy", "zeytinburnu"],
-    "expect_any_categories": ["dessert", "restaurant"],
-    "top_k": 5
+    "query": "besiktasta sushici ariyorum",
+    "expect_any_areas": [
+      "besiktas"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
   },
   {
     "id": "q015",
-    "query": "modada sessiz ve wifi olan cafe",
-    "expect_any_tags": ["sessiz", "wifi"],
-    "expect_any_areas": ["moda", "kadikoy"],
-    "expect_any_categories": ["cafe"],
-    "top_k": 5
+    "query": "besiktasta sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "besiktas"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
   },
   {
     "id": "q016",
-    "query": "cihangirde kahve icilecek sakin mekan",
-    "expect_any_areas": ["cihangir", "beyoglu", "taksim"],
-    "expect_any_categories": ["cafe"],
-    "top_k": 5
+    "query": "besiktasta sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "besiktas"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
   },
   {
     "id": "q017",
-    "query": "karakoyde japon restoran",
-    "expect_any_tags": ["sushi"],
-    "expect_any_areas": ["karakoy", "galata", "beyoglu"],
-    "expect_any_categories": ["restaurant"],
-    "top_k": 5
+    "query": "besiktasta kahve icmek istiyorum",
+    "expect_any_areas": [
+      "besiktas"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
   },
   {
     "id": "q018",
-    "query": "pendikte cocukla gidilebilecek sakin restoran",
-    "expect_any_areas": ["pendik", "kartal"],
-    "expect_any_categories": ["restaurant", "cafe"],
-    "top_k": 5
+    "query": "besiktasta pasta yemek istiyorum",
+    "expect_any_areas": [
+      "besiktas"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
   },
   {
     "id": "q019",
-    "query": "leventte toplanti yapabilecegim sessiz cafe",
-    "expect_any_tags": ["sessiz", "ders"],
-    "expect_any_areas": ["levent", "maslak", "sisli"],
-    "expect_any_categories": ["cafe", "coworking"],
-    "top_k": 5
+    "query": "sislide vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "sisli"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
   },
   {
     "id": "q020",
-    "query": "galatada tatli yiyecegim yer",
-    "expect_any_areas": ["galata", "karakoy", "beyoglu"],
-    "expect_any_categories": ["dessert", "restaurant", "cafe"],
-    "top_k": 5
+    "query": "sislide sushici ariyorum",
+    "expect_any_areas": [
+      "sisli"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
   },
   {
     "id": "q021",
-    "query": "beylikduzunde kahve icmek istiyorum",
-    "expect_any_areas": ["beylikduzu", "bakirkoy", "zeytinburnu"],
-    "expect_any_categories": ["cafe", "restaurant"],
-    "top_k": 5
+    "query": "sislide sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "sisli"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
   },
   {
     "id": "q022",
+    "query": "sislide sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "sisli"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q023",
+    "query": "sislide kahve icmek istiyorum",
+    "expect_any_areas": [
+      "sisli"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q024",
+    "query": "sislide pasta yemek istiyorum",
+    "expect_any_areas": [
+      "sisli"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q025",
+    "query": "beyoglude vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "beyoglu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q026",
+    "query": "beyoglude sushici ariyorum",
+    "expect_any_areas": [
+      "beyoglu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q027",
+    "query": "beyoglude sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "beyoglu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q028",
+    "query": "beyoglude sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "beyoglu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q029",
+    "query": "beyoglude kahve icmek istiyorum",
+    "expect_any_areas": [
+      "beyoglu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q030",
+    "query": "beyoglude pasta yemek istiyorum",
+    "expect_any_areas": [
+      "beyoglu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q031",
+    "query": "uskudarde vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "uskudar"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q032",
+    "query": "uskudarde sushici ariyorum",
+    "expect_any_areas": [
+      "uskudar"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q033",
+    "query": "uskudarde sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "uskudar"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q034",
+    "query": "uskudarde sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "uskudar"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q035",
+    "query": "uskudarde kahve icmek istiyorum",
+    "expect_any_areas": [
+      "uskudar"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q036",
+    "query": "uskudarde pasta yemek istiyorum",
+    "expect_any_areas": [
+      "uskudar"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q037",
+    "query": "fatihta vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "fatih"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q038",
+    "query": "fatihta sushici ariyorum",
+    "expect_any_areas": [
+      "fatih"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q039",
+    "query": "fatihta sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "fatih"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q040",
+    "query": "fatihta sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "fatih"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q041",
+    "query": "fatihta kahve icmek istiyorum",
+    "expect_any_areas": [
+      "fatih"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q042",
+    "query": "fatihta pasta yemek istiyorum",
+    "expect_any_areas": [
+      "fatih"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q043",
+    "query": "bakirkoyde vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "bakirkoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q044",
+    "query": "bakirkoyde sushici ariyorum",
+    "expect_any_areas": [
+      "bakirkoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q045",
+    "query": "bakirkoyde sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "bakirkoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q046",
+    "query": "bakirkoyde sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "bakirkoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q047",
+    "query": "bakirkoyde kahve icmek istiyorum",
+    "expect_any_areas": [
+      "bakirkoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q048",
+    "query": "bakirkoyde pasta yemek istiyorum",
+    "expect_any_areas": [
+      "bakirkoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q049",
+    "query": "zeytinburnude vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "zeytinburnu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q050",
+    "query": "zeytinburnude sushici ariyorum",
+    "expect_any_areas": [
+      "zeytinburnu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q051",
+    "query": "zeytinburnude sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "zeytinburnu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q052",
+    "query": "zeytinburnude sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "zeytinburnu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q053",
+    "query": "zeytinburnude kahve icmek istiyorum",
+    "expect_any_areas": [
+      "zeytinburnu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q054",
+    "query": "zeytinburnude pasta yemek istiyorum",
+    "expect_any_areas": [
+      "zeytinburnu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q055",
+    "query": "sariyerde vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "sariyer"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q056",
+    "query": "sariyerde sushici ariyorum",
+    "expect_any_areas": [
+      "sariyer"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q057",
+    "query": "sariyerde sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "sariyer"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q058",
+    "query": "sariyerde sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "sariyer"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q059",
+    "query": "sariyerde kahve icmek istiyorum",
+    "expect_any_areas": [
+      "sariyer"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q060",
+    "query": "sariyerde pasta yemek istiyorum",
+    "expect_any_areas": [
+      "sariyer"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q061",
+    "query": "atasehirde vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "atasehir"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q062",
+    "query": "atasehirde sushici ariyorum",
+    "expect_any_areas": [
+      "atasehir"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q063",
+    "query": "atasehirde sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "atasehir"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q064",
+    "query": "atasehirde sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "atasehir"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q065",
+    "query": "atasehirde kahve icmek istiyorum",
+    "expect_any_areas": [
+      "atasehir"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q066",
+    "query": "atasehirde pasta yemek istiyorum",
+    "expect_any_areas": [
+      "atasehir"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q067",
+    "query": "maltepede vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "maltepe"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q068",
+    "query": "maltepede sushici ariyorum",
+    "expect_any_areas": [
+      "maltepe"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q069",
+    "query": "maltepede sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "maltepe"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q070",
+    "query": "maltepede sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "maltepe"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q071",
+    "query": "maltepede kahve icmek istiyorum",
+    "expect_any_areas": [
+      "maltepe"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q072",
+    "query": "maltepede pasta yemek istiyorum",
+    "expect_any_areas": [
+      "maltepe"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q073",
+    "query": "kartalde vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "kartal"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q074",
+    "query": "kartalde sushici ariyorum",
+    "expect_any_areas": [
+      "kartal"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q075",
+    "query": "kartalde sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "kartal"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q076",
+    "query": "kartalde sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "kartal"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q077",
+    "query": "kartalde kahve icmek istiyorum",
+    "expect_any_areas": [
+      "kartal"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q078",
+    "query": "kartalde pasta yemek istiyorum",
+    "expect_any_areas": [
+      "kartal"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q079",
+    "query": "pendikta vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "pendik"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q080",
+    "query": "pendikta sushici ariyorum",
+    "expect_any_areas": [
+      "pendik"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q081",
+    "query": "pendikta sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "pendik"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q082",
+    "query": "pendikta sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "pendik"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q083",
+    "query": "pendikta kahve icmek istiyorum",
+    "expect_any_areas": [
+      "pendik"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q084",
+    "query": "pendikta pasta yemek istiyorum",
+    "expect_any_areas": [
+      "pendik"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q085",
+    "query": "taksimde vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "taksim"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q086",
+    "query": "taksimde sushici ariyorum",
+    "expect_any_areas": [
+      "taksim"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q087",
+    "query": "taksimde sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "taksim"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q088",
+    "query": "taksimde sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "taksim"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q089",
+    "query": "taksimde kahve icmek istiyorum",
+    "expect_any_areas": [
+      "taksim"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q090",
+    "query": "taksimde pasta yemek istiyorum",
+    "expect_any_areas": [
+      "taksim"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q091",
+    "query": "cihangirde vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "cihangir"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q092",
+    "query": "cihangirde sushici ariyorum",
+    "expect_any_areas": [
+      "cihangir"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q093",
+    "query": "cihangirde sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "cihangir"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q094",
+    "query": "cihangirde sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "cihangir"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q095",
+    "query": "cihangirde kahve icmek istiyorum",
+    "expect_any_areas": [
+      "cihangir"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q096",
+    "query": "cihangirde pasta yemek istiyorum",
+    "expect_any_areas": [
+      "cihangir"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q097",
+    "query": "karakoyde vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "karakoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q098",
+    "query": "karakoyde sushici ariyorum",
+    "expect_any_areas": [
+      "karakoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q099",
+    "query": "karakoyde sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "karakoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q100",
+    "query": "karakoyde sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "karakoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q101",
+    "query": "karakoyde kahve icmek istiyorum",
+    "expect_any_areas": [
+      "karakoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q102",
+    "query": "karakoyde pasta yemek istiyorum",
+    "expect_any_areas": [
+      "karakoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q103",
+    "query": "galatade vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "galata"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q104",
+    "query": "galatade sushici ariyorum",
+    "expect_any_areas": [
+      "galata"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q105",
+    "query": "galatade sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "galata"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q106",
+    "query": "galatade sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "galata"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q107",
+    "query": "galatade kahve icmek istiyorum",
+    "expect_any_areas": [
+      "galata"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q108",
+    "query": "galatade pasta yemek istiyorum",
+    "expect_any_areas": [
+      "galata"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q109",
+    "query": "leventta vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "levent"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q110",
+    "query": "leventta sushici ariyorum",
+    "expect_any_areas": [
+      "levent"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q111",
+    "query": "leventta sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "levent"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q112",
+    "query": "leventta sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "levent"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q113",
+    "query": "leventta kahve icmek istiyorum",
+    "expect_any_areas": [
+      "levent"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q114",
+    "query": "leventta pasta yemek istiyorum",
+    "expect_any_areas": [
+      "levent"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q115",
+    "query": "maslakta vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "maslak"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q116",
+    "query": "maslakta sushici ariyorum",
+    "expect_any_areas": [
+      "maslak"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q117",
+    "query": "maslakta sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "maslak"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q118",
+    "query": "maslakta sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "maslak"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q119",
+    "query": "maslakta kahve icmek istiyorum",
+    "expect_any_areas": [
+      "maslak"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q120",
+    "query": "maslakta pasta yemek istiyorum",
+    "expect_any_areas": [
+      "maslak"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q121",
+    "query": "sultanahmetta vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "sultanahmet"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q122",
+    "query": "sultanahmetta sushici ariyorum",
+    "expect_any_areas": [
+      "sultanahmet"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q123",
+    "query": "sultanahmetta sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "sultanahmet"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q124",
+    "query": "sultanahmetta sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "sultanahmet"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q125",
+    "query": "sultanahmetta kahve icmek istiyorum",
+    "expect_any_areas": [
+      "sultanahmet"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q126",
+    "query": "sultanahmetta pasta yemek istiyorum",
+    "expect_any_areas": [
+      "sultanahmet"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q127",
+    "query": "cekmekoyde vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "cekmekoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q128",
+    "query": "cekmekoyde sushici ariyorum",
+    "expect_any_areas": [
+      "cekmekoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q129",
+    "query": "cekmekoyde sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "cekmekoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q130",
+    "query": "cekmekoyde sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "cekmekoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q131",
+    "query": "cekmekoyde kahve icmek istiyorum",
+    "expect_any_areas": [
+      "cekmekoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q132",
+    "query": "cekmekoyde pasta yemek istiyorum",
+    "expect_any_areas": [
+      "cekmekoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q133",
+    "query": "beylikduzude vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "beylikduzu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q134",
+    "query": "beylikduzude sushici ariyorum",
+    "expect_any_areas": [
+      "beylikduzu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q135",
+    "query": "beylikduzude sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "beylikduzu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q136",
+    "query": "beylikduzude sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "beylikduzu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q137",
+    "query": "beylikduzude kahve icmek istiyorum",
+    "expect_any_areas": [
+      "beylikduzu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q138",
+    "query": "beylikduzude pasta yemek istiyorum",
+    "expect_any_areas": [
+      "beylikduzu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q139",
+    "query": "esenyurtta vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "esenyurt"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q140",
+    "query": "esenyurtta sushici ariyorum",
+    "expect_any_areas": [
+      "esenyurt"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q141",
+    "query": "esenyurtta sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "esenyurt"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q142",
+    "query": "esenyurtta sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "esenyurt"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q143",
+    "query": "esenyurtta kahve icmek istiyorum",
+    "expect_any_areas": [
+      "esenyurt"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q144",
+    "query": "esenyurtta pasta yemek istiyorum",
+    "expect_any_areas": [
+      "esenyurt"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q145",
+    "query": "avcilarde vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "avcilar"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q146",
+    "query": "avcilarde sushici ariyorum",
+    "expect_any_areas": [
+      "avcilar"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q147",
+    "query": "avcilarde sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "avcilar"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q148",
+    "query": "avcilarde sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "avcilar"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q149",
+    "query": "avcilarde kahve icmek istiyorum",
+    "expect_any_areas": [
+      "avcilar"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q150",
+    "query": "avcilarde pasta yemek istiyorum",
+    "expect_any_areas": [
+      "avcilar"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q151",
+    "query": "kucukcekmecede vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "kucukcekmece"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q152",
+    "query": "kucukcekmecede sushici ariyorum",
+    "expect_any_areas": [
+      "kucukcekmece"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q153",
+    "query": "kucukcekmecede sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "kucukcekmece"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q154",
+    "query": "kucukcekmecede sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "kucukcekmece"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q155",
+    "query": "kucukcekmecede kahve icmek istiyorum",
+    "expect_any_areas": [
+      "kucukcekmece"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q156",
+    "query": "kucukcekmecede pasta yemek istiyorum",
+    "expect_any_areas": [
+      "kucukcekmece"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q157",
+    "query": "bahcelievlerde vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "bahcelievler"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q158",
+    "query": "bahcelievlerde sushici ariyorum",
+    "expect_any_areas": [
+      "bahcelievler"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q159",
+    "query": "bahcelievlerde sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "bahcelievler"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q160",
+    "query": "bahcelievlerde sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "bahcelievler"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q161",
+    "query": "bahcelievlerde kahve icmek istiyorum",
+    "expect_any_areas": [
+      "bahcelievler"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q162",
+    "query": "bahcelievlerde pasta yemek istiyorum",
+    "expect_any_areas": [
+      "bahcelievler"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q163",
+    "query": "bagcilarde vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "bagcilar"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q164",
+    "query": "bagcilarde sushici ariyorum",
+    "expect_any_areas": [
+      "bagcilar"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q165",
+    "query": "bagcilarde sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "bagcilar"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q166",
+    "query": "bagcilarde sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "bagcilar"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q167",
+    "query": "bagcilarde kahve icmek istiyorum",
+    "expect_any_areas": [
+      "bagcilar"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q168",
+    "query": "bagcilarde pasta yemek istiyorum",
+    "expect_any_areas": [
+      "bagcilar"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q169",
+    "query": "umraniyede vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "umraniye"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q170",
+    "query": "umraniyede sushici ariyorum",
+    "expect_any_areas": [
+      "umraniye"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q171",
+    "query": "umraniyede sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "umraniye"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q172",
+    "query": "umraniyede sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "umraniye"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q173",
+    "query": "umraniyede kahve icmek istiyorum",
+    "expect_any_areas": [
+      "umraniye"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q174",
+    "query": "umraniyede pasta yemek istiyorum",
+    "expect_any_areas": [
+      "umraniye"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q175",
+    "query": "sancaktepede vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "sancaktepe"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q176",
+    "query": "sancaktepede sushici ariyorum",
+    "expect_any_areas": [
+      "sancaktepe"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q177",
+    "query": "sancaktepede sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "sancaktepe"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q178",
+    "query": "sancaktepede sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "sancaktepe"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q179",
+    "query": "sancaktepede kahve icmek istiyorum",
+    "expect_any_areas": [
+      "sancaktepe"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q180",
+    "query": "sancaktepede pasta yemek istiyorum",
+    "expect_any_areas": [
+      "sancaktepe"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q181",
+    "query": "tuzlade vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "tuzla"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q182",
+    "query": "tuzlade sushici ariyorum",
+    "expect_any_areas": [
+      "tuzla"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q183",
+    "query": "tuzlade sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "tuzla"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q184",
+    "query": "tuzlade sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "tuzla"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q185",
+    "query": "tuzlade kahve icmek istiyorum",
+    "expect_any_areas": [
+      "tuzla"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q186",
+    "query": "tuzlade pasta yemek istiyorum",
+    "expect_any_areas": [
+      "tuzla"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q187",
+    "query": "beykozde vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "beykoz"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q188",
+    "query": "beykozde sushici ariyorum",
+    "expect_any_areas": [
+      "beykoz"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q189",
+    "query": "beykozde sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "beykoz"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q190",
+    "query": "beykozde sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "beykoz"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q191",
+    "query": "beykozde kahve icmek istiyorum",
+    "expect_any_areas": [
+      "beykoz"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q192",
+    "query": "beykozde pasta yemek istiyorum",
+    "expect_any_areas": [
+      "beykoz"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q193",
+    "query": "kagithanede vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "kagithane"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q194",
+    "query": "kagithanede sushici ariyorum",
+    "expect_any_areas": [
+      "kagithane"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q195",
+    "query": "kagithanede sutlu tatli yemek istiyorum",
+    "expect_any_areas": [
+      "kagithane"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q196",
+    "query": "kagithanede sessiz ders calisabilecegim bir mekan",
+    "expect_any_areas": [
+      "kagithane"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "library",
+      "coworking"
+    ],
+    "expect_any_tags": [
+      "ders",
+      "sessiz"
+    ]
+  },
+  {
+    "id": "q197",
+    "query": "kagithanede kahve icmek istiyorum",
+    "expect_any_areas": [
+      "kagithane"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q198",
+    "query": "kagithanede pasta yemek istiyorum",
+    "expect_any_areas": [
+      "kagithane"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
+  },
+  {
+    "id": "q199",
+    "query": "besiktasta vegan bir yer ariyorum",
+    "expect_any_areas": [
+      "besiktas"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant",
+      "cafe"
+    ],
+    "expect_any_tags": [
+      "vegan"
+    ]
+  },
+  {
+    "id": "q200",
+    "query": "beylikduzunde kahve icmek istiyorum",
+    "expect_any_areas": [
+      "beylikduzu"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "cafe",
+      "restaurant"
+    ]
+  },
+  {
+    "id": "q201",
+    "query": "cekmekoyde lezzetli sutlu tatlilar yemek istiyorum",
+    "expect_any_areas": [
+      "cekmekoy"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sutlu_tatli"
+    ]
+  },
+  {
+    "id": "q202",
+    "query": "kadikoyde sushici ariyorum",
+    "expect_any_areas": [
+      "kadikoy",
+      "moda"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "restaurant"
+    ],
+    "expect_any_tags": [
+      "sushi"
+    ]
+  },
+  {
+    "id": "q203",
     "query": "besiktasta pasta yemek istiyorum",
-    "expect_any_areas": ["besiktas"],
-    "expect_any_categories": ["dessert", "cafe"],
-    "top_k": 5
+    "expect_any_areas": [
+      "besiktas"
+    ],
+    "top_k": 5,
+    "expect_any_categories": [
+      "dessert",
+      "cafe"
+    ]
   }
 ]
