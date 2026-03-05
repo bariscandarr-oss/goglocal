@@ -88,10 +88,12 @@ def _category_from_types(types: list[str], name: str) -> str:
     if "restaurant" in t or "meal_takeaway" in t:
         return "restaurant"
     if "dessert_shop" in t or "ice_cream_shop" in t or any(
-        k in lower for k in ["muhallebi", "sutlac", "sütlaç", "kazandibi", "tatli", "tatlı", "dessert"]
+        k in lower for k in ["muhallebi", "sutlac", "sütlaç", "kazandibi", "tatli", "tatlı", "dessert", "pastane", "patisserie", "pastry", "pasta"]
     ):
         return "dessert"
     if "bakery" in t:
+        if any(k in lower for k in ["pastane", "patisserie", "pastry", "pasta", "tatli", "tatlı", "dessert"]):
+            return "dessert"
         return "cafe"
     return "cafe"
 
@@ -162,6 +164,13 @@ def _query_variants(
             f"{area_phrase}muhallebici",
             f"{area_phrase}pastane",
             "dessert shop",
+        )
+    if profile == "pastry_cake" or any(k in q for k in ["pasta", "pastane", "patisserie", "pastry", "yas pasta", "yaş pasta"]):
+        add(
+            f"{area_phrase}pastane",
+            f"{area_phrase}patisserie",
+            f"{area_phrase}cake shop",
+            f"{area_phrase}dessert",
         )
     if profile == "study_quiet" or any(k in q for k in ["ders", "study", "calis", "focus", "sessiz", "quiet", "sakin"]):
         add(f"{area_phrase}quiet cafe", f"{area_phrase}study cafe", f"{area_phrase}coworking space")

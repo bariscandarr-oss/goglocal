@@ -227,6 +227,9 @@ def _expand_keyword(kw: str) -> set[str]:
         "suşi": {"sushi"},
         "tatli": {"dessert", "tatli", "tatlı"},
         "tatlı": {"dessert", "tatli", "tatlı"},
+        "pasta": {"pastane", "patisserie", "pastry", "cake", "dessert"},
+        "pastane": {"patisserie", "pastry", "cake", "dessert"},
+        "patisserie": {"pastane", "pastry", "cake", "dessert"},
     }
     out = {kw}
     out.update(m.get(kw, set()))

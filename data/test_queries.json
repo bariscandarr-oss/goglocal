@@ -157,5 +157,12 @@
     "expect_any_areas": ["beylikduzu", "bakirkoy", "zeytinburnu"],
     "expect_any_categories": ["cafe", "restaurant"],
     "top_k": 5
+  },
+  {
+    "id": "q022",
+    "query": "besiktasta pasta yemek istiyorum",
+    "expect_any_areas": ["besiktas"],
+    "expect_any_categories": ["dessert", "cafe"],
+    "top_k": 5
   }
 ]

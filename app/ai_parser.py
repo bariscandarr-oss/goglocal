@@ -16,7 +16,24 @@ TAG_MAP = {
     "wifi": ["wifi", "wi-fi", "internet"],
     "priz": ["priz", "socket"],
     "kalabalik": ["kalabalik", "kalabalık", "crowded", "noisy"],
-    "sutlu_tatli": ["sutlu tatli", "sütlü tatlı", "sutlac", "sütlaç", "muhallebi", "kazandibi", "profiterol", "trilece", "tatli", "tatlı", "dessert"],
+    "sutlu_tatli": [
+        "sutlu tatli",
+        "sütlü tatlı",
+        "sutlac",
+        "sütlaç",
+        "muhallebi",
+        "kazandibi",
+        "profiterol",
+        "trilece",
+        "tatli",
+        "tatlı",
+        "dessert",
+        "pastane",
+        "patisserie",
+        "pastry",
+        "pasta",
+        "pastalar",
+    ],
     "sushi": ["sushi", "sushici", "suşi", "suşici", "japon"],
 }
 CATEGORY_MAP = {
@@ -24,7 +41,24 @@ CATEGORY_MAP = {
     "restaurant": ["restaurant", "restoran", "yemek", "sushi", "sushici", "japon"],
     "coworking": ["coworking", "co-working", "ofis", "çalışma alanı", "calisma alani"],
     "library": ["library", "kutuphane", "kütüphane"],
-    "dessert": ["tatli", "tatlı", "dessert", "pastane", "bakery", "muhallebi", "sutlac", "sütlaç", "kazandibi"],
+    "dessert": [
+        "tatli",
+        "tatlı",
+        "dessert",
+        "pastane",
+        "bakery",
+        "muhallebi",
+        "sutlac",
+        "sütlaç",
+        "kazandibi",
+        "patisserie",
+        "pastry",
+        "pasta",
+        "pastalar",
+        "kuru pasta",
+        "yas pasta",
+        "yaş pasta",
+    ],
 }
 
 NOISE_WORDS = {
@@ -148,6 +182,13 @@ def _extract_must_keywords(q: str, area: str | None) -> list[str]:
                 return word[: -len(suf)]
         return word
 
+    def stem_plural(word: str) -> str:
+        if word.endswith("lar") and len(word) >= 6:
+            return word[:-3]
+        if word.endswith("ler") and len(word) >= 6:
+            return word[:-3]
+        return word
+
     words = re.findall(r"[a-z0-9]+", q)
     skip: set[str] = set(NOISE_WORDS)
     skip.update(AREA_ALIASES.keys())
@@ -162,6 +203,7 @@ def _extract_must_keywords(q: str, area: str | None) -> list[str]:
     seen: set[str] = set()
     for w in words:
         w = stem_locative(w)
+        w = stem_plural(w)
         if len(w) < 4:
             continue
         if w in skip:

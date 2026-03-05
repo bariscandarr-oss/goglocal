@@ -61,6 +61,14 @@ INTENT_PROFILES: tuple[IntentProfile, ...] = (
         max_distance_m=4500,
     ),
     IntentProfile(
+        name="pastry_cake",
+        triggers=("pasta", "pastalar", "pastane", "patisserie", "pastry", "yas pasta", "yaş pasta"),
+        preferred_categories=("dessert", "cafe"),
+        min_google_rating=3.8,
+        min_google_reviews=8,
+        max_distance_m=5000,
+    ),
+    IntentProfile(
         name="night_open",
         triggers=("gece", "24 saat", "acik", "açık", "open now"),
         open_now=True,
