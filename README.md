@@ -127,6 +127,11 @@ Quality gate (deploy oncesi):
 make quality-gate
 ```
 
+Hizli smoke gate (CI ile ayni):
+```bash
+make quality-smoke
+```
+
 Esik degeriyle:
 ```bash
 python -m app.eval_quality --base-url https://goglocal.app --dataset data/test_queries.json --min-pass-rate 85
@@ -137,6 +142,8 @@ GitHub Actions quality gate:
 - Opsiyonel repo variables:
   - `QUALITY_BASE_URL` (default: `https://goglocal.app`)
   - `QUALITY_MIN_PASS_RATE` (default: `85`)
+  - `QUALITY_DATASET` (default: `data/test_queries_smoke.json`)
+  - `QUALITY_TIMEOUT` (default: `12`)
 
 ## Ortam degiskenleri
 `.env.example`:

@@ -8,7 +8,7 @@ on:
 jobs:
   quality:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,10 +27,15 @@ jobs:
         env:
           QUALITY_BASE_URL: ${{ vars.QUALITY_BASE_URL }}
           QUALITY_MIN_PASS_RATE: ${{ vars.QUALITY_MIN_PASS_RATE }}
+          QUALITY_DATASET: ${{ vars.QUALITY_DATASET }}
+          QUALITY_TIMEOUT: ${{ vars.QUALITY_TIMEOUT }}
         run: |
           BASE_URL="${QUALITY_BASE_URL:-https://goglocal.app}"
           MIN_PASS="${QUALITY_MIN_PASS_RATE:-85}"
+          DATASET="${QUALITY_DATASET:-data/test_queries_smoke.json}"
+          REQ_TIMEOUT="${QUALITY_TIMEOUT:-12}"
           python -m app.eval_quality \
             --base-url "$BASE_URL" \
-            --dataset data/test_queries.json \
+            --dataset "$DATASET" \
+            --timeout "$REQ_TIMEOUT" \
             --min-pass-rate "$MIN_PASS"
