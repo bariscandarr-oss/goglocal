@@ -3,6 +3,7 @@ from __future__ import annotations
 import math
 import os
 from dataclasses import dataclass
+from urllib.parse import quote
 
 import httpx
 from sqlalchemy.orm import Session
@@ -16,6 +17,7 @@ from .storage import create_tables
 NEARBY_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
 NEARBY_NEW_URL = "https://places.googleapis.com/v1/places:searchNearby"
 TEXT_NEW_URL = "https://places.googleapis.com/v1/places:searchText"
+TOMTOM_TEXT_URL = "https://api.tomtom.com/search/2/search/{query}.json"
 HTTP_TIMEOUT_S = float(os.getenv("GOOGLE_HTTP_TIMEOUT_SECONDS", "6.0"))
 
 
@@ -532,6 +534,154 @@ def search_google_places_live(
             )
         )
     return out
+
+
+def _normalize_provider_name(name: str | None) -> str:
+    value = (name or "").strip().lower()
+    if value in {"", "none", "off", "disabled"}:
+        return "none"
+    if value in {"google", "google_places", "places"}:
+        return "google"
+    if value in {"tomtom", "tt"}:
+        return "tomtom"
+    return "none"
+
+
+def _search_tomtom_places_live(
+    query: str,
+    area: str | None = None,
+    profile: str | None = None,
+    required_tags: list[str] | None = None,
+    must_keywords: list[str] | None = None,
+    radius: int | None = None,
+    max_count: int = 120,
+) -> list[Place]:
+    api_key = os.getenv("TOMTOM_API_KEY", "").strip()
+    if not api_key:
+        return []
+
+    search_radius = radius or (5200 if area else 3200)
+    centers = _live_centers(area)
+    query_variants = _query_variants(
+        query=query,
+        area_specific=bool(area),
+        area=area,
+        profile=profile,
+        required_tags=required_tags,
+        must_keywords=must_keywords,
+    )
+
+    combined: dict[str, Place] = {}
+    with httpx.Client(timeout=HTTP_TIMEOUT_S) as client:
+        for center in centers:
+            lat, lng = center.split(",", 1)
+            for qq in query_variants:
+                try:
+                    url = TOMTOM_TEXT_URL.format(query=quote(qq, safe=""))
+                    resp = client.get(
+                        url,
+                        params={
+                            "key": api_key,
+                            "lat": float(lat),
+                            "lon": float(lng),
+                            "radius": int(search_radius),
+                            "limit": 20,
+                            "language": "tr-TR",
+                        },
+                    )
+                    resp.raise_for_status()
+                    payload = resp.json()
+                except Exception:
+                    continue
+
+                for row in payload.get("results", []):
+                    position = row.get("position") or {}
+                    poi = row.get("poi") or {}
+                    name = str(poi.get("name") or row.get("address", {}).get("freeformAddress") or "Unknown")
+                    lat_v = float(position.get("lat", 0.0))
+                    lon_v = float(position.get("lon", 0.0))
+                    if lat_v == 0.0 and lon_v == 0.0:
+                        continue
+
+                    types = [str(x).lower() for x in poi.get("categories", [])]
+                    place_id = str(row.get("id") or f"tomtom:{name}:{lat_v:.5f}:{lon_v:.5f}")
+                    place = Place(
+                        id=place_id,
+                        name=name,
+                        area=_guess_area(lat_v, lon_v),
+                        category=_category_from_types(types, name),
+                        tags=_tags_from_types(types, name),
+                        quietness_level=_quietness_from_types_name(types, name),
+                        latitude=lat_v,
+                        longitude=lon_v,
+                        price_level=2,
+                        # TomTom response does not include Google-like rating/review fields.
+                        google_rating=4.1,
+                        google_reviews=30,
+                        is_open_now=False,
+                        local_votes_up=0,
+                        local_votes_down=0,
+                        local_weighted_up=0.0,
+                        local_weighted_down=0.0,
+                        updated_days_ago=0,
+                    )
+                    combined[place.id] = place
+                    if len(combined) >= max_count:
+                        return list(combined.values())
+
+    return list(combined.values())
+
+
+def search_live_places(
+    query: str,
+    area: str | None = None,
+    profile: str | None = None,
+    required_tags: list[str] | None = None,
+    must_keywords: list[str] | None = None,
+    radius: int | None = None,
+    max_count: int = 120,
+) -> tuple[list[Place], str]:
+    use_live = os.getenv("USE_LIVE_SEARCH", "0").strip().lower() in {"1", "true", "yes"}
+    if not use_live:
+        return [], "none"
+
+    primary = _normalize_provider_name(os.getenv("LIVE_PRIMARY_PROVIDER", "tomtom"))
+    fallback = _normalize_provider_name(os.getenv("LIVE_FALLBACK_PROVIDER", "google"))
+    providers = [primary]
+    if fallback != "none" and fallback != primary:
+        providers.append(fallback)
+
+    for provider in providers:
+        try:
+            if provider == "google":
+                results = search_google_places_live(
+                    query=query,
+                    area=area,
+                    profile=profile,
+                    required_tags=required_tags,
+                    must_keywords=must_keywords,
+                    radius=radius,
+                    max_count=max_count,
+                )
+            elif provider == "tomtom":
+                results = _search_tomtom_places_live(
+                    query=query,
+                    area=area,
+                    profile=profile,
+                    required_tags=required_tags,
+                    must_keywords=must_keywords,
+                    radius=radius,
+                    max_count=max_count,
+                )
+            else:
+                results = []
+        except Exception:
+            results = []
+
+        if results:
+            return results, provider
+
+    return [], "none"
 
 
 if __name__ == "__main__":

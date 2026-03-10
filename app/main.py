@@ -14,7 +14,7 @@ from .explainer import add_recommendation_summaries
 from .models import FeedbackRequest, Place, QueryIntent, ScoredPlace, SearchRequest, SearchResponse, UserProfileRequest, UserProfileResponse
 from .scoring import score_places
 from .seed import seed_from_json
-from .ingest_google import ingest_google_places, search_google_places_live
+from .ingest_google import ingest_google_places, search_live_places
 from .storage import apply_feedback, count_db_places, create_tables, get_user_profile, load_places, upsert_user_profile
 
 load_dotenv()
@@ -87,7 +87,7 @@ def search_places(payload: SearchRequest) -> SearchResponse:
     intent, parser_source = parse_query_intent_with_source(payload.query)
     if storage_source == "json":
         try:
-            live_places = search_google_places_live(
+            live_places, live_source = search_live_places(
                 query=payload.query,
                 area=intent.area,
                 profile=intent.profile,
@@ -95,6 +95,7 @@ def search_places(payload: SearchRequest) -> SearchResponse:
                 must_keywords=intent.must_keywords,
             )
         except Exception:
+            live_source = "none"
             live_places = []
         if live_places:
             merged: dict[str, Place] = {p.id: p for p in live_places}
@@ -102,7 +103,7 @@ def search_places(payload: SearchRequest) -> SearchResponse:
                 if p.id not in merged:
                     merged[p.id] = p
             places = list(merged.values())
-            storage_source = "json+live_google"
+            storage_source = f"json+live_{live_source}"
 
     merged_tags = list(payload.user_tags)
     profile_budget = None
@@ -194,6 +195,6 @@ def _build_no_result_reason(
         return "Anahtar kelime eşleşmesi bulunamadı. Daha genel terimlerle tekrar deneyin."
     if parser_source == "rules":
         return "Sorgu kural tabanlı yorumlandı. OpenAI parser etkinse daha iyi intent ayrıştırma olabilir."
-    if storage_source in {"json", "json+live_google"}:
+    if storage_source == "json" or storage_source.startswith("json+live_"):
         return "Canlı kaynaktan uygun sonuç bulunamadı. Farklı kelime veya yakın semt deneyin."
     return "Uygun sonuç bulunamadı."

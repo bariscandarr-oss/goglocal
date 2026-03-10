@@ -15,6 +15,12 @@ services:
         value: 3.11.10
       - key: OPENAI_MODEL
         value: gpt-4.1-mini
+      - key: USE_LIVE_SEARCH
+        value: "0"
+      - key: LIVE_PRIMARY_PROVIDER
+        value: "tomtom"
+      - key: LIVE_FALLBACK_PROVIDER
+        value: "google"
       - key: GOOGLE_SEARCH_CENTER
         value: "41.0422,29.0083"
       - key: GOOGLE_SEARCH_RADIUS_METERS
@@ -24,4 +30,6 @@ services:
       - key: OPENAI_API_KEY
         sync: false
       - key: GOOGLE_MAPS_API_KEY
+        sync: false
+      - key: TOMTOM_API_KEY
         sync: false

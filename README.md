@@ -153,9 +153,18 @@ GitHub Actions quality gate:
 - `AUTO_INIT_DB`
 - `AUTO_SEED_JSON`
 - `GOOGLE_MAPS_API_KEY`
+- `TOMTOM_API_KEY`
+- `USE_LIVE_SEARCH` (`0`/`1`)
+- `LIVE_PRIMARY_PROVIDER` (`tomtom` / `google` / `none`)
+- `LIVE_FALLBACK_PROVIDER` (`tomtom` / `google` / `none`)
 - `GOOGLE_SEARCH_CENTER`
 - `GOOGLE_SEARCH_RADIUS_METERS`
 - `GOOGLE_INGEST_AREAS`
+
+Canli provider notlari:
+- Maliyet guvenligi icin varsayilan `USE_LIVE_SEARCH=0` (canli API cagrisini kapatir).
+- Onerilen dusuk maliyet akisi: `LIVE_PRIMARY_PROVIDER=tomtom`, `LIVE_FALLBACK_PROVIDER=google`.
+- Google API tekrar acilacaksa key kisitlari + quota + budget alert zorunlu.
 
 ## Render deploy (goglocal.app icin)
 Bu repoda `/Users/bariscandar/Documents/goglocal/render.yaml` hazir.
