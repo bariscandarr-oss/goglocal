@@ -28,13 +28,9 @@ TAG_MAP = {
         "tatli",
         "tatlı",
         "dessert",
-        "pastane",
-        "patisserie",
-        "pastry",
-        "pasta",
-        "pastalar",
     ],
     "sushi": ["sushi", "sushici", "suşi", "suşici", "japon"],
+    "pastry_cake": ["pasta", "pastalar", "pastane", "patisserie", "pastry", "yas pasta", "yaş pasta", "cake"],
 }
 CATEGORY_MAP = {
     "cafe": ["cafe", "kafe", "kahve", "coffee"],
@@ -59,6 +55,7 @@ CATEGORY_MAP = {
         "yas pasta",
         "yaş pasta",
     ],
+    "bakery": ["pastane", "patisserie", "pastry", "cake", "bakery", "firin", "fırın"],
 }
 
 NOISE_WORDS = {

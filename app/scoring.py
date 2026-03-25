@@ -12,6 +12,7 @@ def _human_tag(tag: str) -> str:
     mapping = {
         "sutlu_tatli": "sütlü tatlı",
         "sushi": "sushi",
+        "pastry_cake": "pasta / pastane",
         "ders": "ders çalışma",
         "sessiz": "sessizlik",
         "vegan": "vegan",
@@ -77,6 +78,42 @@ def _is_vegan_candidate(place: Place) -> bool:
     if has_meat_name and not has_vegan_name:
         return False
     return True
+
+
+def _is_sushi_candidate(place: Place) -> bool:
+    tags = set(place.tags)
+    if "sushi" in tags:
+        return True
+
+    name = place.name.lower()
+    sushi_signals = ["sushi", "suşi", "sushico", "japon", "nigiri", "maki", "ramen"]
+    return any(s in name for s in sushi_signals) and place.category == "restaurant"
+
+
+def _is_pastry_candidate(place: Place) -> bool:
+    tags = set(place.tags)
+    if "pastry_cake" in tags:
+        return True
+
+    name = place.name.lower()
+    pastry_signals = [
+        "pastane",
+        "patisserie",
+        "pastry",
+        "cake",
+        "yaş pasta",
+        "yas pasta",
+        "ekler",
+        "tartolet",
+        "cheesecake",
+        "tiramisu",
+    ]
+    dessert_signals = ["pasta", "pastalar"]
+    if any(s in name for s in pastry_signals):
+        return True
+    if any(s in name for s in dessert_signals) and place.category in {"dessert", "cafe"}:
+        return True
+    return False
 
 
 def _normalize_google_score(rating: float, reviews: int) -> float:
@@ -202,6 +239,10 @@ def _is_in_area(place: Place, area: str, radius_m: int = AREA_RADIUS_M) -> bool:
     return d is not None and d <= radius_m
 
 
+def _is_exact_area(place: Place, area: str) -> bool:
+    return place.area == area
+
+
 def _compute_personalized(place: Place, user_tags: list[str]) -> float:
     if not user_tags:
         return 0.5
@@ -256,7 +297,7 @@ def _keyword_hit_rate(place: Place, must_keywords: list[str]) -> float:
 
 
 def _strict_required_intent(intent: QueryIntent) -> bool:
-    strict_profiles = {"vegan_food", "sushi_food", "milk_dessert"}
+    strict_profiles = {"vegan_food", "sushi_food", "milk_dessert", "pastry_cake"}
     if intent.profile in strict_profiles:
         return True
     strict_tags = {"vegan", "sushi", "sutlu_tatli"}
@@ -285,6 +326,10 @@ def _passes_hard_filters(place: Place, intent: QueryIntent) -> bool:
     if "kalabalik" in set(intent.excluded_tags) and place.quietness_level == 1:
         return False
     if "vegan" in set(intent.required_tags) and not _is_vegan_candidate(place):
+        return False
+    if "sushi" in set(intent.required_tags) and not _is_sushi_candidate(place):
+        return False
+    if "pastry_cake" in set(intent.required_tags) and not _is_pastry_candidate(place):
         return False
     if intent.required_tags and any(t not in tags for t in intent.required_tags):
         return False
@@ -321,6 +366,10 @@ def _passes_base_filters(place: Place, intent: QueryIntent) -> bool:
         return False
     if "vegan" in set(intent.required_tags) and not _is_vegan_candidate(place):
         return False
+    if "sushi" in set(intent.required_tags) and not _is_sushi_candidate(place):
+        return False
+    if "pastry_cake" in set(intent.required_tags) and not _is_pastry_candidate(place):
+        return False
     if _strict_required_intent(intent) and intent.must_keywords and _keyword_hit_rate(place, intent.must_keywords) == 0:
         return False
     return True
@@ -342,17 +391,35 @@ def _choose_candidates(places: list[Place], intent: QueryIntent, exclude_ids: se
 
     strict = [p for p in pool if _passes_hard_filters(p, intent)]
     if intent.area:
+        strict_exact_area = [p for p in strict if _is_exact_area(p, intent.area)]
+        if strict_exact_area:
+            return strict_exact_area
+
         strict_in_area = [p for p in strict if _is_in_area(p, intent.area)]
         if strict_in_area:
             return strict_in_area
 
         if has_specific_constraints:
+            if _strict_required_intent(intent):
+                return []
+            relaxed_exact = [p for p in pool if _passes_base_filters(p, intent) and _is_exact_area(p, intent.area)]
+            if relaxed_exact:
+                return relaxed_exact
             relaxed_zone = [p for p in pool if _passes_base_filters(p, intent) and _is_in_area(p, intent.area, radius_m=8000)]
             if relaxed_zone and intent.required_tags:
                 min_hits = max(1, math.ceil(len(intent.required_tags) / 2))
                 relaxed_zone = [p for p in relaxed_zone if sum(1 for t in intent.required_tags if t in set(p.tags)) >= min_hits]
             if relaxed_zone:
                 return relaxed_zone
+            exact_area_base = [p for p in pool if _passes_base_filters(p, intent) and _is_exact_area(p, intent.area)]
+            if intent.required_tags:
+                exact_area_with_required = [p for p in exact_area_base if _required_hit_count(p, intent) >= 1]
+                if exact_area_with_required:
+                    return exact_area_with_required
+                if _strict_required_intent(intent):
+                    return []
+            if exact_area_base:
+                return exact_area_base
             area_base = [p for p in pool if _passes_base_filters(p, intent) and _is_in_area(p, intent.area, radius_m=12000)]
             if intent.required_tags:
                 area_with_required = [p for p in area_base if _required_hit_count(p, intent) >= 1]
@@ -364,6 +431,9 @@ def _choose_candidates(places: list[Place], intent: QueryIntent, exclude_ids: se
                 return area_base
             return []
 
+        area_only = [p for p in pool if _is_exact_area(p, intent.area)]
+        if area_only:
+            return area_only
         area_only = [p for p in pool if _is_in_area(p, intent.area)]
         if area_only:
             return area_only
@@ -459,14 +529,10 @@ def score_places(
         for t in intent.required_tags:
             if t in tags:
                 reasons.append(f"{_human_tag(t)} kriterini sağlıyor")
-            else:
-                reasons.append(f"{_human_tag(t)} için tam eşleşme yok, alternatif öneri")
         if intent.must_keywords:
             khit = _keyword_hit_rate(place, intent.must_keywords)
             if khit > 0:
                 reasons.append("sorgudaki anahtar kelimelerle eşleşiyor")
-            else:
-                reasons.append("anahtar kelime eşleşmesi düşük")
         for t in intent.excluded_tags:
             if t in tags:
                 reasons.append(f"{_human_tag(t)} olabileceği için daha düşük puan")

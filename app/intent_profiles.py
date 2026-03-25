@@ -63,6 +63,7 @@ INTENT_PROFILES: tuple[IntentProfile, ...] = (
     IntentProfile(
         name="pastry_cake",
         triggers=("pasta", "pastalar", "pastane", "patisserie", "pastry", "yas pasta", "yaş pasta"),
+        required_tags=("pastry_cake",),
         preferred_categories=("dessert", "cafe"),
         min_google_rating=3.8,
         min_google_reviews=8,

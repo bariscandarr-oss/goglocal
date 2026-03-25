@@ -11,6 +11,7 @@ def _human_tag(tag: str) -> str:
     mapping = {
         "sutlu_tatli": "sütlü tatlı",
         "sushi": "sushi",
+        "pastry_cake": "pasta / pastane",
         "ders": "ders çalışma",
         "sessiz": "sessiz ortam",
         "vegan": "vegan",
@@ -37,7 +38,7 @@ def _grounded_points(intent: QueryIntent, item: ScoredPlace) -> list[str]:
         points.append("şu an açık")
     if intent.max_price_level is not None and p.price_level <= intent.max_price_level:
         points.append("bütçe sınırına uygun")
-    if intent.must_keywords:
+    if intent.must_keywords and any("anahtar kelime" in reason for reason in item.reasons):
         points.append("sorgudaki anahtar kelimelerle uyumlu")
     if intent.min_google_rating is not None and p.google_rating >= intent.min_google_rating:
         points.append(f"puanı en az {intent.min_google_rating:.1f}")
