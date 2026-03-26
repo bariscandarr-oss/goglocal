@@ -492,5 +492,11 @@
       "dessert",
       "cafe"
     ]
+  },
+  {
+    "id": "q204",
+    "query": "konyada sessiz ders calisacagim bir yer ariyorum",
+    "expect_empty": true,
+    "top_k": 5
   }
 ]

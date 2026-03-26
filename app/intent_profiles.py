@@ -144,6 +144,7 @@ def apply_intent_profile(normalized_query: str, intent: QueryIntent) -> QueryInt
     return QueryIntent(
         profile=profile.name,
         area=intent.area,
+        location_hint=intent.location_hint,
         must_keywords=intent.must_keywords,
         required_tags=required_tags,
         optional_tags=optional_tags,

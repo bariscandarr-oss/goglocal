@@ -184,6 +184,8 @@ def _build_no_result_reason(
         return None
     if not places:
         return "Veri kaynağında mekan yok. Önce seed/ingest yapılmalı."
+    if intent.location_hint and not intent.area:
+        return f"{intent.location_hint} için henüz veri yok. Bu şehir/semt desteklenmiyor olabilir."
     if intent.area:
         in_area = sum(1 for p in places if p.area == intent.area)
         if in_area == 0:

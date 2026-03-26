@@ -16,6 +16,7 @@ class SearchRequest(BaseModel):
 class QueryIntent(BaseModel):
     profile: str | None = None
     area: str | None = None
+    location_hint: str | None = None
     must_keywords: list[str] = Field(default_factory=list)
     required_tags: list[str] = Field(default_factory=list)
     optional_tags: list[str] = Field(default_factory=list)
@@ -31,6 +32,7 @@ class QueryIntent(BaseModel):
 class Place(BaseModel):
     id: str
     name: str
+    city: str = "istanbul"
     area: str
     category: str
     tags: list[str]

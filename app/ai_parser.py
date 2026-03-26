@@ -85,6 +85,18 @@ NOISE_WORDS = {
     "lezzetli",
 }
 
+GENERIC_LOCATION_WORDS = {
+    "burada",
+    "orada",
+    "yakinda",
+    "yakınında",
+    "civarinda",
+    "civarında",
+    "merkez",
+    "yakini",
+    "yakını",
+}
+
 
 def _normalize(text: str) -> str:
     text = text.lower().strip()
@@ -121,9 +133,40 @@ def _extract_area(normalized_query: str) -> str | None:
     return None
 
 
+def _extract_location_hint(normalized_query: str, area: str | None) -> str | None:
+    if area:
+        return None
+
+    candidates: list[str] = []
+    patterns = [
+        r"\b([a-z]{4,})(?:'?[dt]a|'?[dt]e|da|de|ta|te|dan|den|tan|ten|daki|deki|nde|nda|nden|ndaki)\b",
+        r"\b([a-z]{4,})\s+civar(?:i|ı|inda|ında)\b",
+    ]
+    for pattern in patterns:
+        for match in re.finditer(pattern, normalized_query):
+            token = match.group(1).strip()
+            if token in AREA_ALIASES or token in NOISE_WORDS or token in GENERIC_LOCATION_WORDS:
+                continue
+            if token.isdigit():
+                continue
+            candidates.append(token)
+
+    if not candidates:
+        return None
+
+    # Prefer the earliest distinct candidate.
+    seen: set[str] = set()
+    for token in candidates:
+        if token not in seen:
+            seen.add(token)
+            return token
+    return None
+
+
 def _parse_with_rules(query: str) -> QueryIntent:
     q = _normalize(query)
     area = _extract_area(q)
+    location_hint = _extract_location_hint(q, area)
 
     required_tags: list[str] = []
     excluded_tags: list[str] = []
@@ -159,6 +202,7 @@ def _parse_with_rules(query: str) -> QueryIntent:
     return QueryIntent(
         profile=None,
         area=area,
+        location_hint=location_hint,
         must_keywords=must_keywords,
         required_tags=_uniq(required_tags),
         optional_tags=_uniq(optional_tags),

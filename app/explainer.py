@@ -30,6 +30,8 @@ def _grounded_points(intent: QueryIntent, item: ScoredPlace) -> list[str]:
     for t in intent.required_tags:
         if t in tags:
             points.append(f"{_human_tag(t)} kriterini karşılıyor")
+    if intent.profile == "study_quiet" and {"ders", "sessiz"}.issubset(tags):
+        points.append("ders çalışmaya uygun bir ortam sunuyor")
     if intent.preferred_categories and p.category in set(intent.preferred_categories):
         points.append(f"{p.category} kategorisinde")
     if intent.area and item.distance_m is not None and item.distance_m <= 4500:

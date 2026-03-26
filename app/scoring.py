@@ -379,6 +379,13 @@ def _choose_candidates(places: list[Place], intent: QueryIntent, exclude_ids: se
     excluded = exclude_ids or set()
     pool = [p for p in places if p.id not in excluded]
     pool = pool if pool else places
+
+    if intent.location_hint and not intent.area:
+        hinted_pool = [p for p in pool if p.area == intent.location_hint or getattr(p, "city", "istanbul") == intent.location_hint]
+        if not hinted_pool:
+            return []
+        pool = hinted_pool
+
     has_specific_constraints = bool(
         intent.required_tags
         or intent.excluded_tags

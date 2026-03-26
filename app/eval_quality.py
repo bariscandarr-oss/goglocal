@@ -30,6 +30,12 @@ def _any_overlap(values: set[str], expected: list[str]) -> bool:
 
 def _evaluate_case(response: dict[str, Any], case: dict[str, Any]) -> tuple[bool, str]:
     results = response.get("results", [])
+    expect_empty = bool(case.get("expect_empty", False))
+    if expect_empty:
+        if not results:
+            return True, "ok_empty"
+        return False, "expected_empty_got_results"
+
     if not results:
         return False, "empty_results"
 
